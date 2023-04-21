@@ -118,3 +118,11 @@
     background-size: 0 2px, 100% 2px;
   }
 }
+
+.form-group {
+  @apply mb-3;
+}
+
+.error {
+  @apply text-sm text-red-500;
+}

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import IndividualForm from '@/components/Partials/IndividualForm';
+import OrganizationForm from '@/components/Partials/OrganizationForm';
 import Seo from '@/components/Seo';
 
 /**
@@ -25,11 +25,11 @@ export default function HomePage() {
 
       <main className='layout'>
         <h4 className='my-6 text-center'>
-          <UnderlineLink href='/individual'>
-            Individual Registration
+          <UnderlineLink href='/organization'>
+            Organization Registration
           </UnderlineLink>
         </h4>
-        <IndividualForm />
+        <OrganizationForm />
       </main>
     </Layout>
   );
