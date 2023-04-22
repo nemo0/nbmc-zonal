@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 export interface IIndividualCamper {
@@ -23,8 +25,19 @@ export default function IndividualForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<IIndividualCamper>();
-  const onSubmit: SubmitHandler<IIndividualCamper> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<IIndividualCamper> = async (data) => {
+    try {
+      const { data: response } = await axios.post('/api/individual', data);
+
+      console.log(response);
+
+      toast.success('Registration Successful', {
+        position: 'bottom-center',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

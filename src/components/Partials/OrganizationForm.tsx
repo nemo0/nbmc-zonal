@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
@@ -49,8 +51,17 @@ export default function OrganizationForm() {
     name: 'campers',
   });
 
-  const onSubmit: SubmitHandler<IOrganizationEntry> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<IOrganizationEntry> = async (data) => {
+    try {
+      await axios.post('/api/organization', data);
+      // console.log(res);
+      toast.success('Successfully submitted', {
+        position: 'bottom-center',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
