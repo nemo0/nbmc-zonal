@@ -7,6 +7,7 @@ import { UserContext } from '@/lib/UserContext';
 
 import Layout from '@/components/layout/Layout';
 import UnderlineLink from '@/components/links/UnderlineLink';
+import Datatable from '@/components/Partials/IndividualDatatable';
 import Seo from '@/components/Seo';
 
 /**
@@ -54,12 +55,10 @@ export default function HomePage() {
             </h4>
             <div>
               <>
-                <h1>Dashboard</h1>
-                <h2>Email</h2>
-                <p>{user.email}</p>
-                <h2>Wallet Address</h2>
-                <p>{user.publicAddress}</p>
+                <p>Hi, {user.email}</p>
                 <button onClick={logout}>Logout</button>
+
+                <Datatable />
               </>
             </div>
           </main>

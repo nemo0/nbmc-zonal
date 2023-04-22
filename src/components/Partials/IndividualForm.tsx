@@ -27,7 +27,10 @@ export default function IndividualForm() {
   } = useForm<IIndividualCamper>();
   const onSubmit: SubmitHandler<IIndividualCamper> = async (data) => {
     try {
-      const { data: response } = await axios.post('/api/individual', data);
+      const { data: response } = await axios.post(
+        '/api/individual/create',
+        data
+      );
 
       console.log(response);
 

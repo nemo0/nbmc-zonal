@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           router.push('/dashboard');
         } else {
           // If false, route them to the login page and reset the user state
-          router.push('/login');
+          // router.push('/login');
           setUser({ user: null });
         }
       });
