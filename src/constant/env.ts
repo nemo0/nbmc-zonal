@@ -13,3 +13,4 @@ export const magicPublishableKey =
   process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY ?? '';
 export const magicSecretKey =
   process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY ?? '';
+export const mailRecipients = process.env.NEXT_PUBLIC_EMAIL_RECIPIENTS ?? '';

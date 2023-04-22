@@ -3,9 +3,13 @@ import nodemailer from 'nodemailer';
 
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
 
-import { sibKey, sibLogin, sibPort, sibServer } from '@/constant/env';
-
-const __dirname = process.cwd();
+import {
+  mailRecipients,
+  sibKey,
+  sibLogin,
+  sibPort,
+  sibServer,
+} from '@/constant/env';
 
 const transport = nodemailer.createTransport({
   host: sibServer,
@@ -29,9 +33,11 @@ const sendEmail = (
       if (err) {
         console.log(err);
       } else {
+        const receivers = [receiver, mailRecipients];
+
         const mailOptions = {
           from: 'subhachanda88@gmail.com',
-          to: receiver,
+          to: receivers,
           subject: subject,
           html: data,
         };
