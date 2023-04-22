@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { magic } from '@/lib/magic';
 import { UserContext } from '@/lib/UserContext';
 
 import Layout from '@/components/layout/Layout';
-import UnderlineLink from '@/components/links/UnderlineLink';
-import Datatable from '@/components/Partials/IndividualDatatable';
+import ButtonLink from '@/components/links/ButtonLink';
 import Seo from '@/components/Seo';
 
 /**
@@ -24,18 +22,8 @@ import Seo from '@/components/Seo';
 
 export default function HomePage() {
   const [user, setUser] = useContext(UserContext);
-  const [email, setEmail] = useState('');
 
   const router = useRouter();
-
-  const logout = async () => {
-    // We'll fill in the rest of this later
-    magic &&
-      magic.user.logout().then(() => {
-        setUser({ user: null });
-        router.push('/login');
-      });
-  };
 
   useEffect(() => {
     // Check for an issuer on our user object. If it exists, route them to the dashboard.
@@ -50,15 +38,45 @@ export default function HomePage() {
           <Seo />
 
           <main className='layout'>
-            <h4 className='my-6 text-center'>
-              <UnderlineLink href='/dashboard'>Dashboard</UnderlineLink>
-            </h4>
-            <div>
+            <div className='flex h-[85vh] flex-col justify-center'>
               <>
-                <p>Hi, {user.email}</p>
-                <button onClick={logout}>Logout</button>
+                <h1 className='text-3xl font-bold'>Dashboard</h1>
 
-                <Datatable />
+                {/* Show a card for individual entries page */}
+                <div className='flex  h-40 flex-wrap gap-x-4 md:flex-nowrap'>
+                  <div className='flex h-full w-full flex-col  space-y-4 rounded-lg bg-white p-4 shadow-lg'>
+                    <h2 className='text-2xl font-bold'>Individual</h2>
+                    <p className='text-gray-500'>
+                      View and Export Individual Campers List
+                    </p>
+                    <ButtonLink
+                      href='/list/individual'
+                      className='rounded-none  px-4 py-2  text-sm font-medium'
+                      variant='dark'
+                    >
+                      <span className='w-full text-center'>
+                        Go to Individual
+                      </span>
+                    </ButtonLink>
+                  </div>
+                  <div className='flex h-full w-full flex-col  space-y-4 rounded-lg bg-white p-4 shadow-lg'>
+                    <h2 className='text-2xl font-bold'>Organization</h2>
+                    <p className='text-gray-500'>
+                      View and Export Organization Campers List
+                    </p>
+                    <ButtonLink
+                      href='/list/organization'
+                      className='rounded-none  px-4 py-2 text-sm font-medium '
+                      variant='dark'
+                    >
+                      <span className='w-full text-center'>
+                        Go to Organization
+                      </span>
+                    </ButtonLink>
+                  </div>
+                </div>
+
+                {/* <Datatable /> */}
               </>
             </div>
           </main>

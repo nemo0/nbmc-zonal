@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -20,13 +22,19 @@ export interface IIndividualCamper {
 }
 
 export default function IndividualForm() {
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IIndividualCamper>();
   const onSubmit: SubmitHandler<IIndividualCamper> = async (data) => {
     try {
+      setLoading(true);
       const { data: response } = await axios.post(
         '/api/individual/create',
         data
@@ -37,8 +45,13 @@ export default function IndividualForm() {
       toast.success('Registration Successful', {
         position: 'bottom-center',
       });
+      setLoading(false);
+      reset();
+
+      router.push('/success');
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -297,6 +310,7 @@ export default function IndividualForm() {
           type='submit'
           variant='primary'
           className='rounded-none border-0'
+          isLoading={loading}
         >
           Submit
         </Button>

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -31,10 +33,15 @@ const camper = {
 };
 
 export default function OrganizationForm() {
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm<IOrganizationEntry>({
     defaultValues: {
@@ -53,12 +60,17 @@ export default function OrganizationForm() {
 
   const onSubmit: SubmitHandler<IOrganizationEntry> = async (data) => {
     try {
-      await axios.post('/api/organization', data);
+      setLoading(true);
+      await axios.post('/api/organization/create', data);
       // console.log(res);
       toast.success('Successfully submitted', {
         position: 'bottom-center',
       });
+      reset();
+      router.push('/success');
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -474,6 +486,7 @@ export default function OrganizationForm() {
           type='submit'
           variant='primary'
           className='rounded-none border-0'
+          isLoading={loading}
         >
           Submit
         </Button>

@@ -11,6 +11,28 @@ const columns = [
     sortable: true,
   },
   {
+    name: 'Organization Name',
+    selector: (row: any) => row.organizationName,
+    sortable: true,
+  },
+  {
+    name: 'Organization Email',
+    selector: (row: any) => row.organizationEmail,
+  },
+  {
+    name: 'Organization Contact',
+    selector: (row: any) => row.organizationContact,
+  },
+  {
+    name: 'Organization Address',
+    selector: (row: any) => row.organizationAddress,
+  },
+  {
+    name: 'Organization Contact Person',
+    selector: (row: any) => row.organizationContactPerson,
+    sortable: true,
+  },
+  {
     name: 'Name',
     selector: (row: any) => row.name,
     sortable: true,
@@ -73,7 +95,7 @@ export default function Datatable() {
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get('/api/individual/read').then((res) => {
+    axios.get('/api/organization/read').then((res) => {
       setData(res.data.data);
     });
   }, []);
@@ -83,6 +105,11 @@ export default function Datatable() {
       const jsonDataForExport = data.map((item: any) => {
         return {
           'Created At': item.created_at,
+          'Organization Name': item.organizationName,
+          'Organization Email': item.organizationEmail,
+          'Organization Contact': item.organizationContact,
+          'Organization Address': item.organizationAddress,
+          'Organization Contact Person': item.organizationContactPerson,
           Name: item.name,
           Email: item.email,
           Guardian: item.guardian,

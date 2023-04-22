@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
@@ -24,8 +25,9 @@ export default function HomePage() {
 
       <main>
         <section className='bg-white'>
-          <div className='layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center'>
+          <div className='layout relative flex h-[85vh] flex-col items-center justify-center py-12 text-center'>
             {/* <Vercel className='text-5xl' /> */}
+            <Image src='/images/logo.png' alt='logo' height={120} width={120} />
             <h1 className='mt-4'>
               39th North Bengal Zonal Youth Training Camp 2023{' '}
             </h1>
