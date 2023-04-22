@@ -11,6 +11,5 @@ export const sibLogin = process.env.SENDINBLUE_LOGIN ?? '';
 export const sibKey = process.env.SENDINBLUE_KEY ?? '';
 export const magicPublishableKey =
   process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY ?? '';
-export const magicSecretKey =
-  process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY ?? '';
+export const magicSecretKey = process.env.NEXT_PUBLIC_MAGIC_SECRET ?? '';
 export const mailRecipients = process.env.NEXT_PUBLIC_EMAIL_RECIPIENTS ?? '';
