@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // Pull their metadata, update our state, and route to dashboard
           magic &&
             magic.user.getMetadata().then((userData) => setUser(userData));
-          router.push('/dashboard');
+          // router.push('/dashboard');
         } else {
           // If false, route them to the login page and reset the user state
           // router.push('/login');

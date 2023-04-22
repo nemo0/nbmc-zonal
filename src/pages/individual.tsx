@@ -31,7 +31,7 @@ export default function HomePage() {
         </h4>
         <h5 className='my-6 text-center text-red-500'>
           If you are facing any issues with the form, please contact at{' '}
-          <UnderlineLink href='callto:7602110080'>7602110080</UnderlineLink>
+          <UnderlineLink href='tel:7602110080'>7602110080</UnderlineLink>
         </h5>
         <IndividualForm />
       </main>
