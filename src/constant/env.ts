@@ -9,3 +9,7 @@ export const sibServer = process.env.SENDINBLUE_SERVER ?? '';
 export const sibPort = process.env.SENDINBLUE_PORT ?? 587;
 export const sibLogin = process.env.SENDINBLUE_LOGIN ?? '';
 export const sibKey = process.env.SENDINBLUE_KEY ?? '';
+export const magicPublishableKey =
+  process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY ?? '';
+export const magicSecretKey =
+  process.env.NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY ?? '';
