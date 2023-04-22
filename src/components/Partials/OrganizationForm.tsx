@@ -19,17 +19,17 @@ interface IOrganizationEntry {
 const camper = {
   name: '',
   email: '',
-  physicallyFit: 'Yes',
-  religion: 'Buddhism',
-  foodPreference: 'Vegetarian',
-  campExperience: 'No',
-  natureOfCamper: 'Ordinary',
-  amount: 'Rs. 150',
+  physicallyFit: '',
+  religion: '',
+  foodPreference: '',
+  campExperience: '',
+  natureOfCamper: '',
+  amount: '',
   guardian: '',
   address: '',
   age: 0,
   contact: 0,
-  occupation: 'Advocate',
+  occupation: '',
 };
 
 export default function OrganizationForm() {
@@ -203,7 +203,7 @@ export default function OrganizationForm() {
               id='guardian'
               defaultValue={item.guardian}
               key={item.id}
-              {...register(`campers.${index}.guardian`, { required: true })}
+              {...register(`campers.${index}.guardian`)}
             />
             {errors?.campers && errors?.campers[index]?.guardian && (
               <span className='error'>This field is required</span>
@@ -261,6 +261,7 @@ export default function OrganizationForm() {
               key={item.id}
               {...register(`campers.${index}.occupation`, { required: true })}
             >
+              <option disabled selected></option>
               <option>Advocate</option>
               <option>Agent</option>
               <option>Business</option>
@@ -284,7 +285,7 @@ export default function OrganizationForm() {
               htmlFor='contact'
               className='block text-sm font-semibold text-gray-700'
             >
-              Contact
+              Contact Number
             </label>
             <input
               type='number'
@@ -333,6 +334,7 @@ export default function OrganizationForm() {
                 required: true,
               })}
             >
+              <option disabled selected></option>
               <option>Yes</option>
               <option>No</option>
             </select>
@@ -354,6 +356,7 @@ export default function OrganizationForm() {
               key={item.id}
               {...register(`campers.${index}.religion`, { required: true })}
             >
+              <option disabled selected></option>
               <option>Buddhism</option>
               <option>Christianity</option>
               <option>Hinduism</option>
@@ -382,6 +385,7 @@ export default function OrganizationForm() {
                 required: true,
               })}
             >
+              <option disabled selected></option>
               <option>Vegetarian</option>
               <option>Non-Vegetarian</option>
             </select>
@@ -405,6 +409,7 @@ export default function OrganizationForm() {
                 required: true,
               })}
             >
+              <option disabled selected></option>
               <option>Yes</option>
               <option>No</option>
             </select>
@@ -428,6 +433,7 @@ export default function OrganizationForm() {
                 required: true,
               })}
             >
+              <option disabled selected></option>
               <option>Leader</option>
               <option>Ordinary</option>
             </select>
@@ -449,6 +455,7 @@ export default function OrganizationForm() {
               key={item.id}
               {...register(`campers.${index}.amount`, { required: true })}
             >
+              <option disabled selected></option>
               <option>Rs. 150</option>
               <option>Rs. 300</option>
               <option>Rs. 500</option>
