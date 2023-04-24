@@ -1338,6 +1338,13 @@
     "@ethersproject/rlp" "^5.7.0"
     "@ethersproject/signing-key" "^5.7.0"
 
+"@headlessui/react@^1.7.14":
+  "integrity" "sha512-znzdq9PG8rkwcu9oQ2FwIy0ZFtP9Z7ycS+BAqJ3R5EIqC/0bJGvhT7193rFf+45i9nnPsYvCQVW4V/bB9Xc+gA=="
+  "resolved" "https://registry.npmjs.org/@headlessui/react/-/react-1.7.14.tgz"
+  "version" "1.7.14"
+  dependencies:
+    "client-only" "^0.0.1"
+
 "@humanwhocodes/config-array@^0.11.8":
   "integrity" "sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g=="
   "resolved" "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.8.tgz"
@@ -2933,7 +2940,7 @@
     "slice-ansi" "^5.0.0"
     "string-width" "^5.0.0"
 
-"client-only@0.0.1":
+"client-only@^0.0.1", "client-only@0.0.1":
   "integrity" "sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA=="
   "resolved" "https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz"
   "version" "0.0.1"
@@ -6298,7 +6305,7 @@
   dependencies:
     "deepmerge" "^4.2.2"
 
-"react-dom@^18.0.0", "react-dom@^18.2.0", "react-dom@>= 16.8.0", "react-dom@>=16":
+"react-dom@^16 || ^17 || ^18", "react-dom@^18.0.0", "react-dom@^18.2.0", "react-dom@>= 16.8.0", "react-dom@>=16":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
@@ -6338,7 +6345,7 @@
   dependencies:
     "clsx" "^1.1.1"
 
-"react@*", "react@^16.8.0 || ^17 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>= 16.8.3", "react@>=16", "react@>=17.0.0":
+"react@*", "react@^16 || ^17 || ^18", "react@^16.8.0 || ^17 || ^18", "react@^18.0.0", "react@^18.2.0", "react@>= 16.8.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>= 16.8.3", "react@>=16", "react@>=17.0.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

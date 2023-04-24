@@ -33,7 +33,8 @@ const sendEmail = (
       if (err) {
         console.log(err);
       } else {
-        const receivers = [receiver, mailRecipients];
+        const emailReceivers = JSON.parse(mailRecipients);
+        const receivers = [receiver, ...emailReceivers];
 
         const mailOptions = {
           from: 'subhachanda88@gmail.com',

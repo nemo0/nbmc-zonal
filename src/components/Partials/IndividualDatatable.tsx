@@ -3,8 +3,9 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 
 import Button from '@/components/buttons/Button';
+import CamperModal from '@/components/IndividualModal';
 
-const columns = [
+const columns = (handleEditClick: (row: any) => void) => [
   {
     name: 'Created At',
     selector: (row: any) => row.created_at,
@@ -67,16 +68,40 @@ const columns = [
     selector: (row: any) => row.amount,
     sortable: true,
   },
+  {
+    cell: (row: any) => (
+      <div
+        className='flex'
+        onClick={() => {
+          handleEditClick(row);
+        }}
+      >
+        <Button className='rounded-none border border-gray-400' variant='light'>
+          Edit
+        </Button>
+      </div>
+    ),
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+  },
 ];
 
 export default function Datatable() {
   const [data, setData] = React.useState([]);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [selectedRow, setSelectedRow] = React.useState(null);
+
+  const handleEditClick = (row: any) => {
+    setSelectedRow(row);
+    setModalIsOpen(true);
+  };
 
   React.useEffect(() => {
     axios.get('/api/individual/read').then((res) => {
       setData(res.data.data);
     });
-  }, []);
+  }, [modalIsOpen]);
 
   const exportToJson = async () => {
     try {
@@ -143,7 +168,21 @@ export default function Datatable() {
               Export
             </Button>
           </div>
-          <DataTable columns={columns} data={data} fixedHeader />
+          <DataTable
+            columns={columns(handleEditClick)}
+            data={data}
+            fixedHeader
+          />
+          {selectedRow && (
+            <CamperModal
+              isOpen={modalIsOpen}
+              onRequestClose={() => {
+                setModalIsOpen(false);
+                selectedRow && setSelectedRow(null);
+              }}
+              row={selectedRow}
+            />
+          )}
         </div>
       ) : (
         <p>Loading...</p>
