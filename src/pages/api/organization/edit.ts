@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -17,10 +18,7 @@ export interface IOrganizationCamper extends IIndividualCamper {
   organizationContactPerson: string;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const {
       id,
@@ -79,3 +77,5 @@ export default async function handler(
       .json({ error: 'Something went wrong', success: false });
   }
 }
+
+export default withApiAuthRequired(handler);

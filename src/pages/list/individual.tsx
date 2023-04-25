@@ -1,8 +1,7 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
-
-import { UserContext } from '@/lib/UserContext';
+import { useEffect } from 'react';
 
 import Layout from '@/components/layout/Layout';
 import Datatable from '@/components/Partials/IndividualDatatable';
@@ -22,18 +21,17 @@ import Skeleton from '@/components/Skeleton';
 // to customize the default configuration.
 
 export default function HomePage() {
-  const [user, setUser] = useContext(UserContext);
-
+  const { user } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     // Check for an issuer on our user object. If it exists, route them to the dashboard.
-    !user && router.push('/login');
+    !user && router.push('/api/auth/login');
   }, [user]);
 
   return (
     <>
-      {user?.issuer ? (
+      {user ? (
         <Layout>
           {/* <Seo templateTitle='Home' /> */}
           <Seo />

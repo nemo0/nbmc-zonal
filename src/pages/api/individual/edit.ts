@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -6,10 +7,7 @@ const supabaseKey = process.env.SUPABASE_DB_PROJECT_KEY || '';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method !== 'PUT') {
       return res.status(400).json({ error: 'Invalid Request', success: false });
@@ -63,3 +61,5 @@ export default async function handler(
       .json({ error: 'Something went wrong', success: false });
   }
 }
+
+export default withApiAuthRequired(handler);

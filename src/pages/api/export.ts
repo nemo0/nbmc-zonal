@@ -1,12 +1,10 @@
 // pages/api/export_excel.js
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { exportJsonToExcel } from '@/lib/exportJsonToExcel';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
       const jsonData = req.body.data;
@@ -30,3 +28,5 @@ export default async function handler(
     res.status(405).json({ error: 'Method not allowed' });
   }
 }
+
+export default withApiAuthRequired(handler);

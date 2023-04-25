@@ -1,9 +1,7 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
-
-import { magic } from '@/lib/magic';
-import { UserContext } from '@/lib/UserContext';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/buttons/Button';
 import Layout from '@/components/layout/Layout';
@@ -23,46 +21,15 @@ import Seo from '@/components/Seo';
 // to customize the default configuration.
 
 export default function HomePage() {
-  const [user, setUser] = useContext(UserContext);
+  const { user } = useUser();
   const [email, setEmail] = useState('');
 
   const router = useRouter();
 
   useEffect(() => {
     // Check for an issuer on our user object. If it exists, route them to the dashboard.
-    user?.issuer && router.push('/dashboard');
+    router.push('/api/auth/login');
   }, [user]);
-
-  const handleLogin = async (e: any) => {
-    e.preventDefault();
-
-    // Log in using our email with Magic and store the returned DID token in a variable
-    try {
-      const didToken =
-        magic &&
-        (await magic?.auth.loginWithMagicLink({
-          email,
-        }));
-
-      // Send this token to our validation endpoint
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `Bearer ${didToken}`,
-        },
-      });
-
-      // If successful, update our user state with their metadata and route to the dashboard
-      if (res.ok) {
-        const userMetadata = magic && (await magic.user.getMetadata());
-        setUser(userMetadata);
-        router.push('/dashboard');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <Layout>
@@ -74,7 +41,7 @@ export default function HomePage() {
           <UnderlineLink href='/login'>Login</UnderlineLink>
         </h4>
         <div>
-          <form onSubmit={handleLogin} className='mx-auto w-full md:w-7/12'>
+          <form className='mx-auto w-full md:w-7/12'>
             <label htmlFor='email'>Email</label>
             <input
               name='email'

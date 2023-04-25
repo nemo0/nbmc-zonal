@@ -1,10 +1,7 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-import { magic } from '@/lib/magic';
-import { UserContext } from '@/lib/UserContext';
-
-import Button from '@/components/buttons/Button';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
@@ -14,18 +11,10 @@ const links = [
 ];
 
 export default function Header() {
-  const [user, setUser] = React.useContext(UserContext);
+  const { user, error, isLoading } = useUser();
 
   const router = useRouter();
 
-  const logout = async () => {
-    // We'll fill in the rest of this later
-    magic &&
-      magic.user.logout().then(() => {
-        setUser({ user: null });
-        router.push('/login');
-      });
-  };
   return (
     <header className='sticky top-0 z-50 bg-white'>
       <div className='layout flex h-14 items-center justify-between'>
@@ -41,7 +30,7 @@ export default function Header() {
                 </UnstyledLink>
               </li>
             ))}
-            {user?.issuer ? (
+            {user ? (
               <>
                 <li>
                   <UnstyledLink
@@ -52,19 +41,19 @@ export default function Header() {
                   </UnstyledLink>
                 </li>
                 <li>
-                  <Button
-                    onClick={logout}
+                  <ButtonLink
                     className='rounded-none  px-4 py-2  text-sm font-medium'
                     variant='dark'
+                    href='/api/auth/logout'
                   >
                     <span className='w-full text-center'>Logout</span>
-                  </Button>
+                  </ButtonLink>
                 </li>
               </>
             ) : (
               <li>
                 <ButtonLink
-                  href='/login'
+                  href='/api/auth/login'
                   className='rounded-none  px-4 py-2  text-sm font-medium'
                   variant='dark'
                 >

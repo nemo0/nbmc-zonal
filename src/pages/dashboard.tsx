@@ -1,8 +1,7 @@
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
-
-import { UserContext } from '@/lib/UserContext';
+import { useEffect } from 'react';
 
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
@@ -21,7 +20,7 @@ import Seo from '@/components/Seo';
 // to customize the default configuration.
 
 export default function HomePage() {
-  const [user, setUser] = useContext(UserContext);
+  const { user, error, isLoading } = useUser();
 
   const router = useRouter();
 
@@ -32,7 +31,7 @@ export default function HomePage() {
 
   return (
     <>
-      {user?.issuer && (
+      {user && (
         <Layout>
           {/* <Seo templateTitle='Home' /> */}
           <Seo />
