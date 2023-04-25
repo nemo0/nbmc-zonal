@@ -22,10 +22,13 @@ export default function Header() {
           Home
         </UnstyledLink>
         <nav>
-          <ul className='flex items-center justify-between space-x-4'>
+          <ul className='flex items-center justify-between space-x-2 md:space-x-4'>
             {links.map(({ href, label }) => (
               <li key={`${href}${label}`}>
-                <UnstyledLink href={href} className='hover:text-gray-600'>
+                <UnstyledLink
+                  href={href}
+                  className='text-sm hover:text-gray-600 md:text-base'
+                >
                   {label}
                 </UnstyledLink>
               </li>
@@ -35,14 +38,14 @@ export default function Header() {
                 <li>
                   <UnstyledLink
                     href='/dashboard'
-                    className='hover:text-gray-600'
+                    className='text-sm hover:text-gray-600 md:text-base'
                   >
                     Dashboard
                   </UnstyledLink>
                 </li>
                 <li>
                   <ButtonLink
-                    className='rounded-none  px-4 py-2  text-sm font-medium'
+                    className='rounded-none px-2 py-1 text-xs md:px-4 md:py-2  md:text-sm md:font-medium'
                     variant='dark'
                     href='/api/auth/logout'
                   >

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/buttons/Button';
+import Cross from '@/components/Icons/Cross';
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
 interface IEditCamper extends IIndividualCamper {
   id: string;
@@ -95,7 +96,13 @@ export default function CamperModal(props: Props) {
                     as='h3'
                     className='text-lg font-medium leading-6 text-gray-900'
                   >
-                    Edit Details
+                    <div className='flex items-center justify-between'>
+                      <span>Edit Camper</span>
+                      <Cross
+                        onClick={onRequestClose}
+                        className='cursor-pointer'
+                      />
+                    </div>
                   </Dialog.Title>
                   <div className='mt-2'>
                     <form
