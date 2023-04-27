@@ -26,32 +26,36 @@ const sendEmail = (
   camper: IIndividualCamper | any,
   template: string
 ) => {
-  ejs.renderFile(
-    template,
-    { camper }, // Pass the camper object to the template
-    (err: any, data: any) => {
-      if (err) {
-        console.log(err);
-      } else {
-        const emailReceivers = JSON.parse(mailRecipients);
-        const receivers = [receiver, ...emailReceivers];
+  try {
+    ejs.renderFile(
+      template,
+      { camper }, // Pass the camper object to the template
+      (err: any, data: any) => {
+        if (err) {
+          console.log(err);
+        } else {
+          const emailReceivers = JSON.parse(mailRecipients);
+          const receivers = [receiver, ...emailReceivers];
 
-        const mailOptions = {
-          from: 'subhachanda88@gmail.com',
-          to: receivers,
-          subject: subject,
-          html: data,
-        };
+          const mailOptions = {
+            from: 'subhachanda88@gmail.com',
+            to: receivers,
+            subject: subject,
+            html: data,
+          };
 
-        transport.sendMail(mailOptions, (error: any, info: any) => {
-          if (error) {
-            return console.log(error);
-          }
-          console.log('Message sent: %s', info.messageId);
-        });
+          transport.sendMail(mailOptions, (error: any, info: any) => {
+            if (error) {
+              return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+          });
+        }
       }
-    }
-  );
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default sendEmail;
