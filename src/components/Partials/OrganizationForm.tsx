@@ -84,7 +84,8 @@ export default function OrganizationForm() {
             htmlFor='name'
             className='block text-sm font-semibold text-gray-700'
           >
-            Unit/Organization Name
+            Unit/Organization Name{' '}
+            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='text'
@@ -102,9 +103,10 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Address
+            <span className='text-xs text-red-600'>*</span>
           </label>
-          <input
-            type='text'
+          <textarea
+            rows={3}
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='name'
             {...register('organizationAddress', { required: true })}
@@ -119,6 +121,7 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Email Address
+            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='text'
@@ -136,6 +139,7 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Contact Number
+            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='text'
@@ -153,6 +157,7 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Contact Person Name
+            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='text'
@@ -176,7 +181,7 @@ export default function OrganizationForm() {
               htmlFor='name'
               className='block text-sm font-semibold text-gray-700'
             >
-              Name
+              Name <span className='text-xs text-red-600'>*</span>
             </label>
             <input
               type='text'
@@ -214,7 +219,7 @@ export default function OrganizationForm() {
               htmlFor='address'
               className='block text-sm font-semibold text-gray-700'
             >
-              Address
+              Address <span className='text-xs text-red-600'>*</span>
             </label>
             <textarea
               rows={3}
@@ -233,7 +238,7 @@ export default function OrganizationForm() {
               htmlFor='age'
               className='block text-sm font-semibold text-gray-700'
             >
-              Age
+              Age <span className='text-xs text-red-600'>*</span>
             </label>
             <input
               type='number'
@@ -252,7 +257,7 @@ export default function OrganizationForm() {
               htmlFor='occupation'
               className='block text-sm font-semibold text-gray-700'
             >
-              Occupation
+              Occupation <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
@@ -285,7 +290,7 @@ export default function OrganizationForm() {
               htmlFor='contact'
               className='block text-sm font-semibold text-gray-700'
             >
-              Contact Number
+              Contact Number <span className='text-xs text-red-600'>*</span>
             </label>
             <input
               type='number'
@@ -312,7 +317,7 @@ export default function OrganizationForm() {
               id='email'
               defaultValue={item.email}
               key={item.id}
-              {...register(`campers.${index}.email`, { required: true })}
+              {...register(`campers.${index}.email`)}
             />
             {errors?.campers && errors?.campers[index]?.email && (
               <span className='error'>This field is required</span>
@@ -323,7 +328,7 @@ export default function OrganizationForm() {
               htmlFor='physicallyFit'
               className='block text-sm font-semibold text-gray-700'
             >
-              Physically Fit
+              Physically Fit <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
@@ -347,7 +352,7 @@ export default function OrganizationForm() {
               htmlFor='religion'
               className='block text-sm font-semibold text-gray-700'
             >
-              Religion
+              Religion <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
@@ -374,7 +379,7 @@ export default function OrganizationForm() {
               htmlFor='foodPreference'
               className='block text-sm font-semibold text-gray-700'
             >
-              Food Preference
+              Food Preference <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
@@ -398,7 +403,7 @@ export default function OrganizationForm() {
               htmlFor='campExperience'
               className='block text-sm font-semibold text-gray-700'
             >
-              Camp Experience
+              Camp Experience <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
@@ -422,7 +427,7 @@ export default function OrganizationForm() {
               htmlFor='natureOfCamper'
               className='block text-sm font-semibold text-gray-700'
             >
-              Nature of Camper
+              Nature of Camper <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
@@ -446,7 +451,7 @@ export default function OrganizationForm() {
               htmlFor='amount'
               className='block text-sm font-semibold text-gray-700'
             >
-              Amount
+              Amount <span className='text-xs text-red-600'>*</span>
             </label>
             <select
               className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
