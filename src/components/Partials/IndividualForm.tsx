@@ -52,6 +52,9 @@ export default function IndividualForm() {
     } catch (error) {
       console.log(error);
       setLoading(false);
+      toast.error('Something went wrong', {
+        position: 'bottom-center',
+      });
     }
   };
 

@@ -72,6 +72,9 @@ export default function OrganizationForm() {
     } catch (error) {
       setLoading(false);
       console.log(error);
+      toast.error('Something went wrong', {
+        position: 'bottom-center',
+      });
     }
   };
 
