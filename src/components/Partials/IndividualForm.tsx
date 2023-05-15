@@ -87,7 +87,7 @@ export default function IndividualForm() {
             htmlFor='guardian'
             className='block text-sm font-semibold text-gray-700'
           >
-            Guardian
+            Father/Mother's Name
           </label>
           <input
             type='text'

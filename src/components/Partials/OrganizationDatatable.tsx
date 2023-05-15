@@ -44,7 +44,7 @@ const columns = (handleEditClick: (row: any) => void) => [
     sortable: true,
   },
   {
-    name: 'Guardian',
+    name: 'Father/Mother',
     selector: (row: any) => row.guardian,
     sortable: true,
   },
@@ -141,7 +141,7 @@ export default function Datatable() {
           'Organization Contact Person': item.organizationContactPerson,
           Name: item.name,
           Email: item.email,
-          Guardian: item.guardian,
+          'Father/Mother': item.guardian,
           Address: item.address,
           Age: item.age,
           Occupation: item.occupation,
