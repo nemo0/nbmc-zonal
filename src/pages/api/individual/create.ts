@@ -29,6 +29,7 @@ export default async function handler(
       campExperience,
       natureOfCamper,
       amount,
+      course,
     } = req.body;
 
     const camper = {
@@ -45,6 +46,7 @@ export default async function handler(
       campExperience,
       natureOfCamper,
       amount,
+      course,
     };
 
     const { data, error } = await supabase.from('individual').insert([camper]);

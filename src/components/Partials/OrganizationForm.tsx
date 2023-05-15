@@ -30,6 +30,7 @@ const camper = {
   age: 0,
   contact: 0,
   occupation: '',
+  course: '',
 };
 
 export default function OrganizationForm() {
@@ -42,6 +43,7 @@ export default function OrganizationForm() {
     handleSubmit,
     control,
     reset,
+    watch,
     formState: { errors },
   } = useForm<IOrganizationEntry>({
     defaultValues: {
@@ -145,9 +147,9 @@ export default function OrganizationForm() {
             <span className='text-xs text-red-600'>*</span>
           </label>
           <input
-            type='text'
+            type='number'
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-            id='name'
+            id='organizationContact'
             {...register('organizationContact', { required: true })}
           />
           {errors.organizationContact && (
@@ -174,318 +176,347 @@ export default function OrganizationForm() {
         </div>
       </div>
       <h5 className='my-4 text-center'>Camper Details</h5>
-      {fields.map((item, index) => (
-        <div className='' key={index}>
-          <div className='mb-2 mt-3 text-center text-lg font-bold'>
-            Camper {index + 1}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='name'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Name <span className='text-xs text-red-600'>*</span>
-            </label>
-            <input
-              type='text'
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='name'
-              key={item.id}
-              {...register(`campers.${index}.name`, { required: true })}
-            />
+      {fields.map((item, index) => {
+        const occupation = watch(`campers.${index}.occupation`);
 
-            {errors?.campers && errors?.campers[index]?.name && (
-              <span className='error'>This field is required</span>
+        return (
+          <div className='' key={index}>
+            <div className='mb-2 mt-3 text-center text-lg font-bold'>
+              Camper {index + 1}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='name'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Name <span className='text-xs text-red-600'>*</span>
+              </label>
+              <input
+                type='text'
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='name'
+                key={item.id}
+                {...register(`campers.${index}.name`, { required: true })}
+              />
+
+              {errors?.campers && errors?.campers[index]?.name && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='guardian'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Guardian
+              </label>
+              <input
+                type='text'
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='guardian'
+                defaultValue={item.guardian}
+                key={item.id}
+                {...register(`campers.${index}.guardian`)}
+              />
+              {errors?.campers && errors?.campers[index]?.guardian && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='address'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Address <span className='text-xs text-red-600'>*</span>
+              </label>
+              <textarea
+                rows={3}
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='address'
+                defaultValue={item.address}
+                key={item.id}
+                {...register(`campers.${index}.address`, { required: true })}
+              />
+              {errors?.campers && errors?.campers[index]?.address && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='age'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Age <span className='text-xs text-red-600'>*</span>
+              </label>
+              <input
+                type='number'
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='age'
+                defaultValue={item.age}
+                key={item.id}
+                {...register(`campers.${index}.age`, { required: true })}
+              />
+              {errors?.campers && errors?.campers[index]?.age && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+
+            <div className='form-group'>
+              <label
+                htmlFor='occupation'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Occupation <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='occupation'
+                defaultValue={item.occupation}
+                key={item.id}
+                {...register(`campers.${index}.occupation`, { required: true })}
+              >
+                <option disabled selected></option>
+                <option>Advocate</option>
+                <option>Agent</option>
+                <option>Business</option>
+                <option>Doctor</option>
+                <option>Driver</option>
+                <option>Job(Private)</option>
+                <option>Retired</option>
+                <option>Self-employed</option>
+                <option>Service or Teacher</option>
+                <option>Student</option>
+                <option>Tutor</option>
+                <option>Unemployed</option>
+                <option>Others</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.occupation && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+
+            {occupation === 'Student' && (
+              <div className='form-group'>
+                <label
+                  htmlFor='course'
+                  className='block text-sm font-semibold text-gray-700'
+                >
+                  Class/Course with Year{' '}
+                  <span className='text-xs text-red-600'>*</span>
+                </label>
+                <input
+                  type='text'
+                  className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                  id='course'
+                  {...register(`campers.${index}.course`, {
+                    required: occupation === 'Student',
+                  })}
+                />
+                {errors?.campers && errors?.campers[index]?.course && (
+                  <span className='error'>This field is required</span>
+                )}
+              </div>
             )}
+
+            <div className='form-group'>
+              <label
+                htmlFor='contact'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Contact Number <span className='text-xs text-red-600'>*</span>
+              </label>
+              <input
+                type='number'
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='contact'
+                defaultValue={item.contact}
+                key={item.id}
+                {...register(`campers.${index}.contact`, { required: true })}
+              />
+              {errors?.campers && errors?.campers[index]?.contact && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='email'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Email
+              </label>
+              <input
+                type='email'
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='email'
+                defaultValue={item.email}
+                key={item.id}
+                {...register(`campers.${index}.email`)}
+              />
+              {errors?.campers && errors?.campers[index]?.email && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='physicallyFit'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Physically Fit <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='physicallyFit'
+                defaultValue={item.physicallyFit}
+                key={item.id}
+                {...register(`campers.${index}.physicallyFit`, {
+                  required: true,
+                })}
+              >
+                <option disabled selected></option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.physicallyFit && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='religion'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Religion <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='religion'
+                defaultValue={item.religion}
+                key={item.id}
+                {...register(`campers.${index}.religion`, { required: true })}
+              >
+                <option disabled selected></option>
+                <option>Buddhism</option>
+                <option>Christianity</option>
+                <option>Hinduism</option>
+                <option>Islam</option>
+                <option>Jainism</option>
+                <option>Sikhism</option>
+                <option>Other</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.religion && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='foodPreference'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Food Preference <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='foodPreference'
+                defaultValue={item.foodPreference}
+                key={item.id}
+                {...register(`campers.${index}.foodPreference`, {
+                  required: true,
+                })}
+              >
+                <option disabled selected></option>
+                <option>Vegetarian</option>
+                <option>Non-Vegetarian</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.foodPreference && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='campExperience'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Camp Experience <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='campExperience'
+                defaultValue={item.campExperience}
+                key={item.id}
+                {...register(`campers.${index}.campExperience`, {
+                  required: true,
+                })}
+              >
+                <option disabled selected></option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.campExperience && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='natureOfCamper'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Nature of Camper <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='natureOfCamper'
+                defaultValue={item.natureOfCamper}
+                key={item.id}
+                {...register(`campers.${index}.natureOfCamper`, {
+                  required: true,
+                })}
+              >
+                <option disabled selected></option>
+                <option>Leader</option>
+                <option>Ordinary</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.natureOfCamper && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='form-group'>
+              <label
+                htmlFor='amount'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Amount <span className='text-xs text-red-600'>*</span>
+              </label>
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='amount'
+                defaultValue={item.amount}
+                key={item.id}
+                {...register(`campers.${index}.amount`, { required: true })}
+              >
+                <option disabled selected></option>
+                <option>Rs. 150</option>
+                <option>Rs. 300</option>
+                <option>Rs. 500</option>
+              </select>
+              {errors?.campers && errors?.campers[index]?.amount && (
+                <span className='error'>This field is required</span>
+              )}
+            </div>
+            <div className='flex justify-end'>
+              <Button
+                type='button'
+                variant='dark'
+                className='rounded-none border-0 bg-red-700'
+                onClick={() => {
+                  remove(index);
+                }}
+              >
+                Remove Camper
+              </Button>
+            </div>
           </div>
-          <div className='form-group'>
-            <label
-              htmlFor='guardian'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Guardian
-            </label>
-            <input
-              type='text'
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='guardian'
-              defaultValue={item.guardian}
-              key={item.id}
-              {...register(`campers.${index}.guardian`)}
-            />
-            {errors?.campers && errors?.campers[index]?.guardian && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='address'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Address <span className='text-xs text-red-600'>*</span>
-            </label>
-            <textarea
-              rows={3}
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='address'
-              defaultValue={item.address}
-              key={item.id}
-              {...register(`campers.${index}.address`, { required: true })}
-            />
-            {errors?.campers && errors?.campers[index]?.address && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='age'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Age <span className='text-xs text-red-600'>*</span>
-            </label>
-            <input
-              type='number'
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='age'
-              defaultValue={item.age}
-              key={item.id}
-              {...register(`campers.${index}.age`, { required: true })}
-            />
-            {errors?.campers && errors?.campers[index]?.age && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='occupation'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Occupation <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='occupation'
-              defaultValue={item.occupation}
-              key={item.id}
-              {...register(`campers.${index}.occupation`, { required: true })}
-            >
-              <option disabled selected></option>
-              <option>Advocate</option>
-              <option>Agent</option>
-              <option>Business</option>
-              <option>Doctor</option>
-              <option>Driver</option>
-              <option>Job(Private)</option>
-              <option>Retired</option>
-              <option>Self-employed</option>
-              <option>Service or Teacher</option>
-              <option>Student</option>
-              <option>Tutor</option>
-              <option>Unemployed</option>
-              <option>Others</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.occupation && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='contact'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Contact Number <span className='text-xs text-red-600'>*</span>
-            </label>
-            <input
-              type='number'
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='contact'
-              defaultValue={item.contact}
-              key={item.id}
-              {...register(`campers.${index}.contact`, { required: true })}
-            />
-            {errors?.campers && errors?.campers[index]?.contact && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='email'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Email
-            </label>
-            <input
-              type='email'
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='email'
-              defaultValue={item.email}
-              key={item.id}
-              {...register(`campers.${index}.email`)}
-            />
-            {errors?.campers && errors?.campers[index]?.email && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='physicallyFit'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Physically Fit <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='physicallyFit'
-              defaultValue={item.physicallyFit}
-              key={item.id}
-              {...register(`campers.${index}.physicallyFit`, {
-                required: true,
-              })}
-            >
-              <option disabled selected></option>
-              <option>Yes</option>
-              <option>No</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.physicallyFit && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='religion'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Religion <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='religion'
-              defaultValue={item.religion}
-              key={item.id}
-              {...register(`campers.${index}.religion`, { required: true })}
-            >
-              <option disabled selected></option>
-              <option>Buddhism</option>
-              <option>Christianity</option>
-              <option>Hinduism</option>
-              <option>Islam</option>
-              <option>Jainism</option>
-              <option>Sikhism</option>
-              <option>Other</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.religion && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='foodPreference'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Food Preference <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='foodPreference'
-              defaultValue={item.foodPreference}
-              key={item.id}
-              {...register(`campers.${index}.foodPreference`, {
-                required: true,
-              })}
-            >
-              <option disabled selected></option>
-              <option>Vegetarian</option>
-              <option>Non-Vegetarian</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.foodPreference && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='campExperience'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Camp Experience <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='campExperience'
-              defaultValue={item.campExperience}
-              key={item.id}
-              {...register(`campers.${index}.campExperience`, {
-                required: true,
-              })}
-            >
-              <option disabled selected></option>
-              <option>Yes</option>
-              <option>No</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.campExperience && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='natureOfCamper'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Nature of Camper <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='natureOfCamper'
-              defaultValue={item.natureOfCamper}
-              key={item.id}
-              {...register(`campers.${index}.natureOfCamper`, {
-                required: true,
-              })}
-            >
-              <option disabled selected></option>
-              <option>Leader</option>
-              <option>Ordinary</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.natureOfCamper && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='form-group'>
-            <label
-              htmlFor='amount'
-              className='block text-sm font-semibold text-gray-700'
-            >
-              Amount <span className='text-xs text-red-600'>*</span>
-            </label>
-            <select
-              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
-              id='amount'
-              defaultValue={item.amount}
-              key={item.id}
-              {...register(`campers.${index}.amount`, { required: true })}
-            >
-              <option disabled selected></option>
-              <option>Rs. 150</option>
-              <option>Rs. 300</option>
-              <option>Rs. 500</option>
-            </select>
-            {errors?.campers && errors?.campers[index]?.amount && (
-              <span className='error'>This field is required</span>
-            )}
-          </div>
-          <div className='flex justify-end'>
-            <Button
-              type='button'
-              variant='dark'
-              className='rounded-none border-0 bg-red-700'
-              onClick={() => {
-                remove(index);
-              }}
-            >
-              Remove Camper
-            </Button>
-          </div>
-        </div>
-      ))}
+        );
+      })}
       <div className='flex gap-x-4'>
         <Button
           type='button'

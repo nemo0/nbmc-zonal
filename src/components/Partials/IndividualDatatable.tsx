@@ -39,6 +39,10 @@ const columns = (handleEditClick: (row: any) => void) => [
     selector: (row: any) => row.occupation,
   },
   {
+    name: 'Course',
+    selector: (row: any) => row.course,
+  },
+  {
     name: 'Contact',
     selector: (row: any) => row.contact,
   },
@@ -114,6 +118,7 @@ export default function Datatable() {
           Address: item.address,
           Age: item.age,
           Occupation: item.occupation,
+          Course: item.course,
           Contact: item.contact,
           'Physically Fit': item.physicallyFit,
           Religion: item.religion,

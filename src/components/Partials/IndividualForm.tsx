@@ -19,6 +19,7 @@ export interface IIndividualCamper {
   campExperience: string;
   natureOfCamper: string;
   amount: string;
+  course: string;
 }
 
 export default function IndividualForm() {
@@ -30,8 +31,13 @@ export default function IndividualForm() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<IIndividualCamper>();
+
+  // Watch for Occupation
+  const occupation = watch('occupation');
+
   const onSubmit: SubmitHandler<IIndividualCamper> = async (data) => {
     try {
       setLoading(true);
@@ -158,6 +164,30 @@ export default function IndividualForm() {
             <span className='error'>This field is required</span>
           )}
         </div>
+
+        {/* Show only when Occupation is Student */}
+
+        {occupation === 'Student' && (
+          <div className='form-group'>
+            <label
+              htmlFor='occupation'
+              className='block text-sm font-semibold text-gray-700'
+            >
+              Class/Course with Year{' '}
+              <span className='text-xs text-red-600'>*</span>
+            </label>
+            <input
+              type='text'
+              className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+              id='course'
+              {...register('course', { required: occupation === 'Student' })}
+            />
+            {errors.course && (
+              <span className='error'>This field is required</span>
+            )}
+          </div>
+        )}
+
         <div className='form-group'>
           <label
             htmlFor='contact'
