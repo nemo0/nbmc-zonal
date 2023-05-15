@@ -16,48 +16,52 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const {
-    organizationName,
-    organizationAddress,
-    organizationContact,
-    organizationEmail,
-    organizationContactPerson,
-    campers,
-  } = req.body;
-
-  const campersWithOrganization = campers.map((camper: IIndividualCamper) => {
-    return {
+  try {
+    const {
       organizationName,
       organizationAddress,
       organizationContact,
       organizationEmail,
       organizationContactPerson,
-      ...camper,
+      campers,
+    } = req.body;
+
+    const campersWithOrganization = campers.map((camper: IIndividualCamper) => {
+      return {
+        organizationName,
+        organizationAddress,
+        organizationContact,
+        organizationEmail,
+        organizationContactPerson,
+        ...camper,
+      };
+    });
+
+    const { data, error } = await supabase
+      .from('organization')
+      .insert(campersWithOrganization);
+
+    if (error) {
+      return res.status(400).json({ error: error.message, success: false });
+    }
+
+    const camper = {
+      organizationName,
+      organizationAddress,
+      organizationContact,
+      organizationEmail,
+      organizationContactPerson,
+      campers,
     };
-  });
 
-  const { data, error } = await supabase
-    .from('organization')
-    .insert(campersWithOrganization);
-
-  if (error) {
-    return res.status(400).json({ error: error.message, success: false });
+    sendEmail(
+      organizationEmail,
+      'Organization Registration',
+      camper,
+      `${__dirname}/src/templates/organization.ejs`
+    );
+    return res.status(200).json({ data, success: true });
+  } catch (error) {
+    return res.status(400).json({ error: error, success: false });
   }
-
-  const camper = {
-    organizationName,
-    organizationAddress,
-    organizationContact,
-    organizationEmail,
-    organizationContactPerson,
-    campers,
-  };
-
-  sendEmail(
-    organizationEmail,
-    'Organization Registration',
-    camper,
-    `${__dirname}/src/templates/organization.ejs`
-  );
-  return res.status(200).json({ data, success: true });
 }

@@ -14,49 +14,53 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const {
-    name,
-    guardian,
-    address,
-    age,
-    occupation,
-    contact,
-    email,
-    physicallyFit,
-    religion,
-    foodPreference,
-    campExperience,
-    natureOfCamper,
-    amount,
-  } = req.body;
+  try {
+    const {
+      name,
+      guardian,
+      address,
+      age,
+      occupation,
+      contact,
+      email,
+      physicallyFit,
+      religion,
+      foodPreference,
+      campExperience,
+      natureOfCamper,
+      amount,
+    } = req.body;
 
-  const camper = {
-    name,
-    guardian,
-    address,
-    age,
-    occupation,
-    contact,
-    email,
-    physicallyFit,
-    religion,
-    foodPreference,
-    campExperience,
-    natureOfCamper,
-    amount,
-  };
+    const camper = {
+      name,
+      guardian,
+      address,
+      age,
+      occupation,
+      contact,
+      email,
+      physicallyFit,
+      religion,
+      foodPreference,
+      campExperience,
+      natureOfCamper,
+      amount,
+    };
 
-  const { data, error } = await supabase.from('individual').insert([camper]);
+    const { data, error } = await supabase.from('individual').insert([camper]);
 
-  if (error) {
-    return res.status(400).json({ error: error.message, success: false });
+    if (error) {
+      return res.status(400).json({ error: error.message, success: false });
+    }
+
+    sendEmail(
+      email,
+      'Individual Camper Registration',
+      camper,
+      `${__dirname}/src/templates/individual.ejs`
+    );
+    return res.status(200).json({ data, success: true });
+  } catch (error) {
+    return res.status(400).json({ error: error, success: false });
   }
-
-  sendEmail(
-    email,
-    'Individual Camper Registration',
-    camper,
-    `${__dirname}/src/templates/individual.ejs`
-  );
-  return res.status(200).json({ data, success: true });
 }
