@@ -2,6 +2,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
+import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
 const links = [
@@ -31,7 +32,7 @@ export default function Header() {
                   {label}
                 </UnstyledLink>
               </li>
-            ))}
+            ))} */}
             {user ? (
               <>
                 <li>
@@ -62,7 +63,7 @@ export default function Header() {
                   Login
                 </ButtonLink>
               </li>
-            )} */}
+            )}
           </ul>
         </nav>
       </div>
