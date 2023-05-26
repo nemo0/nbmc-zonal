@@ -2,7 +2,6 @@ import Image from 'next/image';
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
-import ButtonLink from '@/components/links/ButtonLink';
 import Seo from '@/components/Seo';
 
 /**
@@ -36,12 +35,16 @@ export default function HomePage() {
             </p>
 
             <div className='flex gap-x-4'>
-              <ButtonLink className='mt-6' href='/individual' variant='dark'>
+              {/* <ButtonLink className='mt-6' href='/individual' variant='dark'>
                 Individual Registration
               </ButtonLink>
               <ButtonLink className='mt-6' href='/organization' variant='light'>
                 Organization Registration
-              </ButtonLink>
+              </ButtonLink> */}
+            </div>
+            <div className='text-xl font-bold text-red-500'>
+              Registration for the 39th North Bengal Zonal Youth Training Camp
+              is now closed.
             </div>
           </div>
         </section>

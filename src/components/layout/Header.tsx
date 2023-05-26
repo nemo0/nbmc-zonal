@@ -2,7 +2,6 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 
-import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
 const links = [
@@ -23,7 +22,7 @@ export default function Header() {
         </UnstyledLink>
         <nav>
           <ul className='flex items-center justify-between space-x-2 md:space-x-4'>
-            {links.map(({ href, label }) => (
+            {/* {links.map(({ href, label }) => (
               <li key={`${href}${label}`}>
                 <UnstyledLink
                   href={href}
@@ -63,7 +62,7 @@ export default function Header() {
                   Login
                 </ButtonLink>
               </li>
-            )}
+            )} */}
           </ul>
         </nav>
       </div>
