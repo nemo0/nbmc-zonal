@@ -4,8 +4,12 @@ import { useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import capitalizeFirstCharacters from '@/lib/capitalizeFirstCharacter';
+
 import Button from '@/components/buttons/Button';
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
+
+import westBengalDistricts from '@/constant/westBengalDistricts';
 
 interface IOrganizationEntry {
   organizationName: string;
@@ -27,6 +31,8 @@ const camper = {
   amount: '',
   guardian: '',
   address: '',
+  district: '',
+  pin: '',
   age: 0,
   contact: 0,
   occupation: '',
@@ -97,6 +103,9 @@ export default function OrganizationForm() {
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='name'
             {...register('organizationName', { required: true })}
+            onChange={(e) => {
+              e.target.value = capitalizeFirstCharacters(e.target.value);
+            }}
           />
           {errors.organizationName && (
             <span className='error'>This field is required</span>
@@ -108,16 +117,17 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Address
-            <span className='text-xs text-red-600'>*</span>
           </label>
           <textarea
             rows={3}
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='name'
-            {...register('organizationAddress', { required: true })}
+            {...register('organizationAddress')}
           />
           {errors.organizationAddress && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.organizationAddress.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -126,16 +136,17 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Email Address
-            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='text'
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='name'
-            {...register('organizationEmail', { required: true })}
+            {...register('organizationEmail')}
           />
           {errors.organizationEmail && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.organizationEmail.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -144,16 +155,17 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Contact Number
-            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='number'
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='organizationContact'
-            {...register('organizationContact', { required: true })}
+            {...register('organizationContact')}
           />
           {errors.organizationContact && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.organizationContact.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -162,16 +174,18 @@ export default function OrganizationForm() {
             className='block text-sm font-semibold text-gray-700'
           >
             Unit/Organization Contact Person Name
-            <span className='text-xs text-red-600'>*</span>
           </label>
           <input
             type='text'
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='name'
-            {...register('organizationContactPerson', { required: true })}
+            {...register('organizationContactPerson')}
           />
           {errors.organizationContactPerson && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.organizationContactPerson.message ||
+                'This field is required'}
+            </span>
           )}
         </div>
       </div>
@@ -197,6 +211,9 @@ export default function OrganizationForm() {
                 id='name'
                 key={item.id}
                 {...register(`campers.${index}.name`, { required: true })}
+                onChange={(e) => {
+                  e.target.value = capitalizeFirstCharacters(e.target.value);
+                }}
               />
 
               {errors?.campers && errors?.campers[index]?.name && (
@@ -217,6 +234,9 @@ export default function OrganizationForm() {
                 defaultValue={item.guardian}
                 key={item.id}
                 {...register(`campers.${index}.guardian`)}
+                onChange={(e) => {
+                  e.target.value = capitalizeFirstCharacters(e.target.value);
+                }}
               />
               {errors?.campers && errors?.campers[index]?.guardian && (
                 <span className='error'>This field is required</span>
@@ -241,6 +261,59 @@ export default function OrganizationForm() {
                 <span className='error'>This field is required</span>
               )}
             </div>
+
+            <div className='form-group'>
+              <label
+                htmlFor='district'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                District <span className='text-xs text-red-600'>*</span>
+              </label>
+
+              <select
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='district'
+                {...register(`campers.${index}.district`, { required: true })}
+              >
+                <option disabled selected>
+                  Select Option
+                </option>
+                {westBengalDistricts.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
+
+              {errors?.campers && errors?.campers[index]?.district && (
+                <span className='error'>
+                  {errors?.campers[index]?.district?.message ||
+                    'This field is required'}
+                </span>
+              )}
+            </div>
+
+            <div className='form-group'>
+              <label
+                htmlFor='pin'
+                className='block text-sm font-semibold text-gray-700'
+              >
+                Pin Code <span className='text-xs text-red-600'>*</span>
+              </label>
+              <input
+                type='number'
+                className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                id='pin'
+                {...register(`campers.${index}.pin`)}
+              />
+              {errors?.campers && errors?.campers[index]?.pin && (
+                <span className='error'>
+                  {errors?.campers[index]?.pin?.message ||
+                    'This field is required'}
+                </span>
+              )}
+            </div>
+
             <div className='form-group'>
               <label
                 htmlFor='age'
@@ -275,7 +348,9 @@ export default function OrganizationForm() {
                 key={item.id}
                 {...register(`campers.${index}.occupation`, { required: true })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Advocate</option>
                 <option>Agent</option>
                 <option>Business</option>
@@ -372,7 +447,9 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
@@ -394,7 +471,9 @@ export default function OrganizationForm() {
                 key={item.id}
                 {...register(`campers.${index}.religion`, { required: true })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Buddhism</option>
                 <option>Christianity</option>
                 <option>Hinduism</option>
@@ -423,7 +502,9 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Vegetarian</option>
                 <option>Non-Vegetarian</option>
               </select>
@@ -447,7 +528,9 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
@@ -471,7 +554,9 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Leader</option>
                 <option>Ordinary</option>
               </select>
@@ -493,7 +578,9 @@ export default function OrganizationForm() {
                 key={item.id}
                 {...register(`campers.${index}.amount`, { required: true })}
               >
-                <option disabled selected></option>
+                <option disabled selected>
+                  Select Option
+                </option>
                 <option>Rs. 150</option>
                 <option>Rs. 300</option>
                 <option>Rs. 500</option>

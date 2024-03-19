@@ -31,6 +31,14 @@ const columns = (handleEditClick: (row: any) => void) => [
     selector: (row: any) => row.address,
   },
   {
+    name: 'District',
+    selector: (row: any) => row.district,
+  },
+  {
+    name: 'Pin Code',
+    selector: (row: any) => row.pin,
+  },
+  {
     name: 'Age',
     selector: (row: any) => row.age,
   },
@@ -116,6 +124,8 @@ export default function Datatable() {
           Email: item.email,
           'Father/Mother': item.guardian,
           Address: item.address,
+          District: item.district,
+          'Pin Code': item.pin,
           Age: item.age,
           Occupation: item.occupation,
           Course: item.course,

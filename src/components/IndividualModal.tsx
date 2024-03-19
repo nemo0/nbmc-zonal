@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import Button from '@/components/buttons/Button';
 import Cross from '@/components/Icons/Cross';
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
+
+import westBengalDistricts from '@/constant/westBengalDistricts';
 interface IEditCamper extends IIndividualCamper {
   id: string;
 }
@@ -163,6 +165,60 @@ export default function CamperModal(props: Props) {
                             {...register('address', { required: true })}
                           />
                           {errors.address && (
+                            <span className='error'>
+                              This field is required
+                            </span>
+                          )}
+                        </div>
+                        <div className='form-group'>
+                          <label
+                            htmlFor='district'
+                            className='block text-sm font-semibold text-gray-700'
+                          >
+                            District
+                            <span className='text-xs text-red-600'>*</span>
+                          </label>
+
+                          <select
+                            className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                            id='district'
+                            {...register('district', {
+                              required: true,
+                            })}
+                          >
+                            <option disabled selected>
+                              Select Option
+                            </option>
+                            {westBengalDistricts.map((district, index) => (
+                              <option key={index} value={district}>
+                                {district}
+                              </option>
+                            ))}
+                          </select>
+
+                          {errors.district && (
+                            <span className='error'>
+                              This field is required
+                            </span>
+                          )}
+                        </div>
+                        <div className='form-group'>
+                          <label
+                            htmlFor='pin'
+                            className='block text-sm font-semibold text-gray-700'
+                          >
+                            Pin Code
+                            <span className='text-xs text-red-600'>*</span>
+                          </label>
+                          <input
+                            type='number'
+                            className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+                            id='pin'
+                            {...register('pin', {
+                              required: true,
+                            })}
+                          />
+                          {errors.pin && (
                             <span className='error'>
                               This field is required
                             </span>

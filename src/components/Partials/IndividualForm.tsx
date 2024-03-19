@@ -4,11 +4,17 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import capitalizeFirstCharacters from '@/lib/capitalizeFirstCharacter';
+
 import Button from '@/components/buttons/Button';
+
+import westBengalDistricts from '@/constant/westBengalDistricts';
 export interface IIndividualCamper {
   name: string;
   guardian?: string;
   address: string;
+  district: string;
+  pin: string;
   age: number;
   occupation: string;
   contact: number;
@@ -46,7 +52,7 @@ export default function IndividualForm() {
         data
       );
 
-      console.log(response);
+      // console.log(response);
 
       toast.success('Registration Successful', {
         position: 'bottom-center',
@@ -79,6 +85,9 @@ export default function IndividualForm() {
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='name'
             {...register('name', { required: true })}
+            onChange={(e) => {
+              e.target.value = capitalizeFirstCharacters(e.target.value);
+            }}
           />
           {errors.name && <span className='error'>This field is required</span>}
         </div>
@@ -94,6 +103,9 @@ export default function IndividualForm() {
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='guardian'
             {...register('guardian')}
+            onChange={(e) => {
+              e.target.value = capitalizeFirstCharacters(e.target.value);
+            }}
           />
           {errors.guardian && (
             <span className='error'>This field is required</span>
@@ -116,6 +128,55 @@ export default function IndividualForm() {
             <span className='error'>This field is required</span>
           )}
         </div>
+
+        <div className='form-group'>
+          <label
+            htmlFor='district'
+            className='block text-sm font-semibold text-gray-700'
+          >
+            District<span className='text-xs text-red-600'>*</span>
+          </label>
+
+          <select
+            className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+            id='district'
+            {...register('district', {
+              required: true,
+            })}
+          >
+            <option disabled selected>
+              Select Option
+            </option>
+            {westBengalDistricts.map((district, index) => (
+              <option key={index} value={district}>
+                {district}
+              </option>
+            ))}
+          </select>
+
+          {errors.district && (
+            <span className='error'>This field is required</span>
+          )}
+        </div>
+
+        <div className='form-group'>
+          <label
+            htmlFor='pin'
+            className='block text-sm font-semibold text-gray-700'
+          >
+            Pin Code<span className='text-xs text-red-600'>*</span>
+          </label>
+          <input
+            type='number'
+            className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
+            id='pin'
+            {...register('pin', {
+              required: true,
+            })}
+          />
+          {errors.pin && <span className='error'>This field is required</span>}
+        </div>
+
         <div className='form-group'>
           <label
             htmlFor='age'
@@ -145,7 +206,9 @@ export default function IndividualForm() {
             {...register('occupation', { required: true })}
             placeholder='Select your occupation'
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Advocate</option>
             <option>Agent</option>
             <option>Business</option>
@@ -234,7 +297,9 @@ export default function IndividualForm() {
             id='physicallyFit'
             {...register('physicallyFit', { required: true })}
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Yes</option>
             <option>No</option>
           </select>
@@ -254,7 +319,9 @@ export default function IndividualForm() {
             id='religion'
             {...register('religion', { required: true })}
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Buddhism</option>
             <option>Christianity</option>
             <option>Hinduism</option>
@@ -279,7 +346,9 @@ export default function IndividualForm() {
             id='foodPreference'
             {...register('foodPreference', { required: true })}
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Vegetarian</option>
             <option>Non-Vegetarian</option>
           </select>
@@ -299,7 +368,9 @@ export default function IndividualForm() {
             id='campExperience'
             {...register('campExperience', { required: true })}
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Yes</option>
             <option>No</option>
           </select>
@@ -319,7 +390,9 @@ export default function IndividualForm() {
             id='natureOfCamper'
             {...register('natureOfCamper', { required: true })}
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Leader</option>
             <option>Ordinary</option>
           </select>
@@ -339,7 +412,9 @@ export default function IndividualForm() {
             id='amount'
             {...register('amount', { required: true })}
           >
-            <option disabled selected></option>
+            <option disabled selected>
+              Select Option
+            </option>
             <option>Rs. 150</option>
             <option>Rs. 300</option>
             <option>Rs. 500</option>
