@@ -31,8 +31,8 @@ export default function HomePage() {
             <h1 className='mb-6 mt-4'>Thank You!</h1>
 
             <div className='w-3/4'>
-              You have successfully registered for the 39th North Bengal Zonal
-              Youth Training Camp 2023. Please check your email for further
+              You have successfully registered for the 40th North Bengal Zonal
+              Youth Training Camp 2024. Please check your email for further
               instructions.
             </div>
           </div>

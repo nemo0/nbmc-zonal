@@ -2,6 +2,7 @@ import Image from 'next/image';
 import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
+import ButtonLink from '@/components/links/ButtonLink';
 import Seo from '@/components/Seo';
 
 /**
@@ -28,23 +29,19 @@ export default function HomePage() {
             {/* <Vercel className='text-5xl' /> */}
             <Image src='/images/logo.png' alt='logo' height={120} width={120} />
             <h1 className='mt-4'>
-              39th North Bengal Zonal Youth Training Camp 2023{' '}
+              40th North Bengal Zonal Youth Training Camp 2024
             </h1>
             <p className='mt-2 text-sm text-gray-800'>
-              Register for the 39th North Bengal Zonal Youth Training Camp 2023
+              Register for the 40th North Bengal Zonal Youth Training Camp 2024
             </p>
 
             <div className='flex gap-x-4'>
-              {/* <ButtonLink className='mt-6' href='/individual' variant='dark'>
+              <ButtonLink className='mt-6' href='/individual' variant='dark'>
                 Individual Registration
               </ButtonLink>
               <ButtonLink className='mt-6' href='/organization' variant='light'>
                 Organization Registration
-              </ButtonLink> */}
-            </div>
-            <div className='text-xl font-bold text-red-500'>
-              Registration for the 39th North Bengal Zonal Youth Training Camp
-              is now closed.
+              </ButtonLink>
             </div>
           </div>
         </section>

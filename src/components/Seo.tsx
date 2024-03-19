@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
-  title: '39th North Bengal Zonal Youth Training Camp',
-  siteName: '39th North Bengal Zonal Youth Training Camp',
+  title: '40th North Bengal Zonal Youth Training Camp',
+  siteName: '40th North Bengal Zonal Youth Training Camp',
   description:
-    '39th North Bengal Zonal Youth Training Camp is going to be held at Siliguri from 18th May to 21st May 2023.',
+    '40th North Bengal Zonal Youth Training Camp is going to be held at Dhupguri from 15th May to 18th May 2024.',
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
   url: 'https://nbmc-abvym.vercel.app',
   type: 'website',
