@@ -33,8 +33,8 @@ const camper = {
   address: '',
   district: '',
   pin: '',
-  age: 0,
-  contact: 0,
+  age: '',
+  contact: '',
   occupation: '',
   course: '',
 };
@@ -108,7 +108,9 @@ export default function OrganizationForm() {
             }}
           />
           {errors.organizationName && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.organizationName.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -217,7 +219,10 @@ export default function OrganizationForm() {
               />
 
               {errors?.campers && errors?.campers[index]?.name && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.name?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -239,7 +244,10 @@ export default function OrganizationForm() {
                 }}
               />
               {errors?.campers && errors?.campers[index]?.guardian && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.guardian?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -258,7 +266,10 @@ export default function OrganizationForm() {
                 {...register(`campers.${index}.address`, { required: true })}
               />
               {errors?.campers && errors?.campers[index]?.address && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.address?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
 
@@ -275,9 +286,7 @@ export default function OrganizationForm() {
                 id='district'
                 {...register(`campers.${index}.district`, { required: true })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 {westBengalDistricts.map((district, index) => (
                   <option key={index} value={district}>
                     {district}
@@ -304,7 +313,9 @@ export default function OrganizationForm() {
                 type='number'
                 className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
                 id='pin'
-                {...register(`campers.${index}.pin`)}
+                {...register(`campers.${index}.pin`, {
+                  required: true,
+                })}
               />
               {errors?.campers && errors?.campers[index]?.pin && (
                 <span className='error'>
@@ -327,10 +338,19 @@ export default function OrganizationForm() {
                 id='age'
                 defaultValue={item.age}
                 key={item.id}
-                {...register(`campers.${index}.age`, { required: true })}
+                {...register(`campers.${index}.age`, {
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: 'Please enter a valid age',
+                  },
+                })}
               />
               {errors?.campers && errors?.campers[index]?.age && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.age?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
 
@@ -348,9 +368,7 @@ export default function OrganizationForm() {
                 key={item.id}
                 {...register(`campers.${index}.occupation`, { required: true })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Advocate</option>
                 <option>Agent</option>
                 <option>Business</option>
@@ -366,7 +384,10 @@ export default function OrganizationForm() {
                 <option>Others</option>
               </select>
               {errors?.campers && errors?.campers[index]?.occupation && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.occupation?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
 
@@ -388,7 +409,10 @@ export default function OrganizationForm() {
                   })}
                 />
                 {errors?.campers && errors?.campers[index]?.course && (
-                  <span className='error'>This field is required</span>
+                  <span className='error'>
+                    {errors?.campers[index]?.course?.message ||
+                      'This field is required'}
+                  </span>
                 )}
               </div>
             )}
@@ -406,10 +430,27 @@ export default function OrganizationForm() {
                 id='contact'
                 defaultValue={item.contact}
                 key={item.id}
-                {...register(`campers.${index}.contact`, { required: true })}
+                {...register(`campers.${index}.contact`, {
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]*$/,
+                    message: 'Please enter a valid contact number',
+                  },
+                  minLength: {
+                    value: 10,
+                    message: 'Must be 10 digits',
+                  },
+                  maxLength: {
+                    value: 10,
+                    message: 'Must be 10 digits',
+                  },
+                })}
               />
               {errors?.campers && errors?.campers[index]?.contact && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.contact?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -425,10 +466,18 @@ export default function OrganizationForm() {
                 id='email'
                 defaultValue={item.email}
                 key={item.id}
-                {...register(`campers.${index}.email`)}
+                {...register(`campers.${index}.email`, {
+                  pattern: {
+                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: 'Please enter a valid email',
+                  },
+                })}
               />
               {errors?.campers && errors?.campers[index]?.email && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.email?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -447,14 +496,15 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
               {errors?.campers && errors?.campers[index]?.physicallyFit && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.physicallyFit?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -471,9 +521,7 @@ export default function OrganizationForm() {
                 key={item.id}
                 {...register(`campers.${index}.religion`, { required: true })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Buddhism</option>
                 <option>Christianity</option>
                 <option>Hinduism</option>
@@ -483,7 +531,10 @@ export default function OrganizationForm() {
                 <option>Other</option>
               </select>
               {errors?.campers && errors?.campers[index]?.religion && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.religion?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -502,14 +553,15 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Vegetarian</option>
                 <option>Non-Vegetarian</option>
               </select>
               {errors?.campers && errors?.campers[index]?.foodPreference && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.foodPreference?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -528,14 +580,15 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Yes</option>
                 <option>No</option>
               </select>
               {errors?.campers && errors?.campers[index]?.campExperience && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.campExperience?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -554,14 +607,15 @@ export default function OrganizationForm() {
                   required: true,
                 })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Leader</option>
                 <option>Ordinary</option>
               </select>
               {errors?.campers && errors?.campers[index]?.natureOfCamper && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.natureOfCamper?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='form-group'>
@@ -578,15 +632,16 @@ export default function OrganizationForm() {
                 key={item.id}
                 {...register(`campers.${index}.amount`, { required: true })}
               >
-                <option disabled selected>
-                  Select Option
-                </option>
+                <option disabled selected></option>
                 <option>Rs. 150</option>
                 <option>Rs. 300</option>
                 <option>Rs. 500</option>
               </select>
               {errors?.campers && errors?.campers[index]?.amount && (
-                <span className='error'>This field is required</span>
+                <span className='error'>
+                  {errors?.campers[index]?.amount?.message ||
+                    'This field is required'}
+                </span>
               )}
             </div>
             <div className='flex justify-end'>

@@ -15,9 +15,9 @@ export interface IIndividualCamper {
   address: string;
   district: string;
   pin: string;
-  age: number;
+  age: string;
   occupation: string;
-  contact: number;
+  contact: string;
   email: string;
   physicallyFit: string;
   religion: string;
@@ -108,7 +108,7 @@ export default function IndividualForm() {
             }}
           />
           {errors.guardian && (
-            <span className='error'>This field is required</span>
+            <span className='error'>{errors.guardian.message}</span>
           )}
         </div>
         <div className='form-group'>
@@ -125,7 +125,9 @@ export default function IndividualForm() {
             {...register('address', { required: true })}
           />
           {errors.address && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.address.message || 'This field is required'}
+            </span>
           )}
         </div>
 
@@ -144,9 +146,7 @@ export default function IndividualForm() {
               required: true,
             })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             {westBengalDistricts.map((district, index) => (
               <option key={index} value={district}>
                 {district}
@@ -155,7 +155,9 @@ export default function IndividualForm() {
           </select>
 
           {errors.district && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.district.message || 'This field is required'}
+            </span>
           )}
         </div>
 
@@ -174,7 +176,11 @@ export default function IndividualForm() {
               required: true,
             })}
           />
-          {errors.pin && <span className='error'>This field is required</span>}
+          {errors.pin && (
+            <span className='error'>
+              {errors.pin.message || 'This field is required'}
+            </span>
+          )}
         </div>
 
         <div className='form-group'>
@@ -190,7 +196,11 @@ export default function IndividualForm() {
             id='age'
             {...register('age', { required: true })}
           />
-          {errors.age && <span className='error'>This field is required</span>}
+          {errors.age && (
+            <span className='error'>
+              {errors.age.message || 'This field is required'}
+            </span>
+          )}
         </div>
         <div className='form-group'>
           <label
@@ -200,15 +210,12 @@ export default function IndividualForm() {
             Occupation <span className='text-xs text-red-600'>*</span>
           </label>
           <select
-            required
             className='w-full border-gray-400 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50'
             id='occupation'
             {...register('occupation', { required: true })}
             placeholder='Select your occupation'
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Advocate</option>
             <option>Agent</option>
             <option>Business</option>
@@ -224,7 +231,9 @@ export default function IndividualForm() {
             <option>Others</option>
           </select>
           {errors.occupation && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.occupation.message || 'This field is required'}
+            </span>
           )}
         </div>
 
@@ -246,7 +255,9 @@ export default function IndividualForm() {
               {...register('course', { required: occupation === 'Student' })}
             />
             {errors.course && (
-              <span className='error'>This field is required</span>
+              <span className='error'>
+                {errors.course.message || 'This field is required'}
+              </span>
             )}
           </div>
         )}
@@ -265,7 +276,9 @@ export default function IndividualForm() {
             {...register('contact', { required: true })}
           />
           {errors.contact && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.contact.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -297,14 +310,14 @@ export default function IndividualForm() {
             id='physicallyFit'
             {...register('physicallyFit', { required: true })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Yes</option>
             <option>No</option>
           </select>
           {errors.physicallyFit && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.physicallyFit.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -319,9 +332,7 @@ export default function IndividualForm() {
             id='religion'
             {...register('religion', { required: true })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Buddhism</option>
             <option>Christianity</option>
             <option>Hinduism</option>
@@ -331,7 +342,9 @@ export default function IndividualForm() {
             <option>Other</option>
           </select>
           {errors.religion && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.religion.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -346,14 +359,14 @@ export default function IndividualForm() {
             id='foodPreference'
             {...register('foodPreference', { required: true })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Vegetarian</option>
             <option>Non-Vegetarian</option>
           </select>
           {errors.foodPreference && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.foodPreference.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -368,14 +381,14 @@ export default function IndividualForm() {
             id='campExperience'
             {...register('campExperience', { required: true })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Yes</option>
             <option>No</option>
           </select>
           {errors.campExperience && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.campExperience.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -390,14 +403,14 @@ export default function IndividualForm() {
             id='natureOfCamper'
             {...register('natureOfCamper', { required: true })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Leader</option>
             <option>Ordinary</option>
           </select>
           {errors.natureOfCamper && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.natureOfCamper.message || 'This field is required'}
+            </span>
           )}
         </div>
         <div className='form-group'>
@@ -412,15 +425,15 @@ export default function IndividualForm() {
             id='amount'
             {...register('amount', { required: true })}
           >
-            <option disabled selected>
-              Select Option
-            </option>
+            <option disabled selected></option>
             <option>Rs. 150</option>
             <option>Rs. 300</option>
             <option>Rs. 500</option>
           </select>
           {errors.amount && (
-            <span className='error'>This field is required</span>
+            <span className='error'>
+              {errors.amount.message || 'This field is required'}
+            </span>
           )}
         </div>
         <Button

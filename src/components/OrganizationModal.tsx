@@ -281,9 +281,7 @@ export default function OrganizationCamperModal(props: Props) {
                               required: true,
                             })}
                           >
-                            <option disabled selected>
-                              Select Option
-                            </option>
+                            <option disabled selected></option>
                             {westBengalDistricts.map((district, index) => (
                               <option key={index} value={district}>
                                 {district}
