@@ -35,6 +35,10 @@ export default function HomePage() {
               Register for the 40th North Bengal Zonal Youth Training Camp 2024
             </p>
 
+            <p className='my-4 text-xl font-semibold text-red-600'>
+              Last Date of Registration 10th May 2024
+            </p>
+
             <div className='flex gap-x-4'>
               <ButtonLink className='mt-6' href='/individual' variant='dark'>
                 Individual Registration
