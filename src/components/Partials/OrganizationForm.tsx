@@ -635,7 +635,7 @@ export default function OrganizationForm() {
                 <option disabled selected></option>
                 <option>Rs. 150</option>
                 <option>Rs. 300</option>
-                <option>Rs. 500</option>
+                <option>Rs. 600</option>
               </select>
               {errors?.campers && errors?.campers[index]?.amount && (
                 <span className='error'>
