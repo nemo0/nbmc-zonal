@@ -378,6 +378,7 @@ export default function OrganizationForm() {
                 <option>Retired</option>
                 <option>Self-employed</option>
                 <option>Service or Teacher</option>
+                <option>Farmer</option>
                 <option>Student</option>
                 <option>Tutor</option>
                 <option>Unemployed</option>
