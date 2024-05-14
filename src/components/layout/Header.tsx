@@ -60,7 +60,7 @@ export default function Header() {
                   className='rounded-none  px-4 py-2  text-sm font-medium'
                   variant='dark'
                 >
-                  Login
+                  Admin Login
                 </ButtonLink>
               </li>
             )}

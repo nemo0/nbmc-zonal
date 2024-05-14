@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import Layout from '@/components/layout/Layout';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import IndividualForm from '@/components/Partials/IndividualForm';
 import Seo from '@/components/Seo';
 
 /**
@@ -33,7 +32,12 @@ export default function HomePage() {
           If you are facing any issues with the form, please contact at{' '}
           <UnderlineLink href='tel:7602110080'>7602110080</UnderlineLink>
         </h5>
-        <IndividualForm />
+        {/* TODO: Uncomment This */}
+        {/* <IndividualForm /> */}
+        <p className='my-4 text-center text-xl font-semibold text-red-600'>
+          Registration for the 40th North Bengal Zonal Youth Training Camp 2024
+          is now <span className='text-red-700 underline'>closed</span>.
+        </p>
       </main>
     </Layout>
   );
