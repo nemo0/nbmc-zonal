@@ -1,11 +1,6 @@
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
-import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-const supabaseUrl = process.env.SUPABASE_DB_URL || '';
-const supabaseKey = process.env.SUPABASE_DB_PROJECT_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { auth0 } from '@/lib/auth0';
+import { supabaseServer } from '@/lib/supabaseServer';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const analytics = {
@@ -20,11 +15,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     campersByOrganization: [],
   };
 
-  const { data: individual, error } = await supabase
+  const { data: individual, error } = await supabaseServer
     .from('individual')
     .select('*');
 
-  const { data: organization, error: error2 } = await supabase
+  const { data: organization, error: error2 } = await supabaseServer
     .from('organization')
     .select('*');
 
@@ -110,11 +105,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     ([name, count]) => ({ name, count })
   ) as any;
 
-  if (error) {
-    return res.status(400).json({ error: error.message, success: false });
+  if (error || error2) {
+    return res.status(400).json({
+      error: error?.message || error2?.message || 'Something went wrong',
+      success: false,
+    });
   }
 
   return res.status(200).json({ analytics, success: true });
 }
 
-export default withApiAuthRequired(handler);
+export default auth0.withApiAuthRequired(handler);

@@ -1,12 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import sendEmail from '@/lib/sendMail';
-
-const supabaseUrl = process.env.SUPABASE_DB_URL || '';
-const supabaseKey = process.env.SUPABASE_DB_PROJECT_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabaseServer } from '@/lib/supabaseServer';
 
 const __dirname = process.cwd();
 
@@ -53,7 +48,9 @@ export default async function handler(
       course,
     };
 
-    const { data, error } = await supabase.from('individual').insert([camper]);
+    const { data, error } = await supabaseServer
+      .from('individual')
+      .insert([camper]);
 
     if (error) {
       return res.status(400).json({ error: error.message, success: false });

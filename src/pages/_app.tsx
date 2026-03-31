@@ -1,7 +1,5 @@
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import { Auth0Provider } from '@auth0/nextjs-auth0/client';
 import { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,15 +13,11 @@ import '@/styles/colors.css';
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [user, setUser] = useState() as any;
-
-  const router = useRouter();
-
   return (
-    <UserProvider>
+    <Auth0Provider>
       <Component {...pageProps} />
       <ToastContainer />
-    </UserProvider>
+    </Auth0Provider>
   );
 }
 

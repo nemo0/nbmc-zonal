@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import * as React from 'react';
 
+import ButtonLink from '@/components/links/ButtonLink';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
@@ -35,12 +35,6 @@ export default function HomePage() {
             </p>
 
             <p className='my-4 text-xl font-semibold text-red-600'>
-              Registration for the 40th North Bengal Zonal Youth Training Camp
-              2024 is now <span className='text-red-700 underline'>closed</span>
-              .
-            </p>
-
-            {/* <p className='my-4 text-xl font-semibold text-red-600'>
               Last Date of Registration 10th May 2024
             </p>
 
@@ -51,7 +45,7 @@ export default function HomePage() {
               <ButtonLink className='mt-6' href='/organization' variant='light'>
                 Organization Registration
               </ButtonLink>
-            </div> */}
+            </div>
           </div>
         </section>
       </main>

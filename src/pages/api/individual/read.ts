@@ -1,14 +1,9 @@
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
-import { createClient } from '@supabase/supabase-js';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-const supabaseUrl = process.env.SUPABASE_DB_URL || '';
-const supabaseKey = process.env.SUPABASE_DB_PROJECT_KEY || '';
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { auth0 } from '@/lib/auth0';
+import { supabaseServer } from '@/lib/supabaseServer';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { data, error } = await supabase.from('individual').select('*');
+  const { data, error } = await supabaseServer.from('individual').select('*');
 
   if (error) {
     return res.status(400).json({ error: error.message, success: false });
@@ -17,4 +12,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   return res.status(200).json({ data, success: true });
 }
 
-export default withApiAuthRequired(handler);
+export default auth0.withApiAuthRequired(handler);

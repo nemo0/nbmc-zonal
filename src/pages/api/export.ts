@@ -1,8 +1,7 @@
-// pages/api/export_excel.js
-import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { exportJsonToExcel } from '@/lib/exportJsonToExcel';
+import { auth0 } from '@/lib/auth0';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
@@ -29,4 +28,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withApiAuthRequired(handler);
+export default auth0.withApiAuthRequired(handler);
