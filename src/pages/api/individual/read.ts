@@ -1,15 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { auth0 } from '@/lib/auth0';
-import { supabaseServer } from '@/lib/supabaseServer';
+import { auth0, getDataApiAccessToken } from '@/lib/auth0';
+import { createSupabaseDataClient } from '@/lib/supabaseServer';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { data, error } = await supabaseServer.from('individual').select('*');
+  try {
+    const accessToken = await getDataApiAccessToken(req, res);
+    const supabase = createSupabaseDataClient(accessToken);
+    const { data, error } = await supabase.from('individual').select('*');
 
-  if (error) {
-    return res.status(400).json({ error: error.message, success: false });
+    if (error) {
+      return res.status(400).json({ error: error.message, success: false });
+    }
+
+    return res.status(200).json({ data, success: true });
+  } catch (error) {
+    return res.status(401).json({ error: 'Unauthorized', success: false });
   }
-
-  return res.status(200).json({ data, success: true });
 }
 
 export default auth0.withApiAuthRequired(handler);

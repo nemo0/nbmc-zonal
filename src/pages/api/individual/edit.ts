@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { auth0 } from '@/lib/auth0';
-import { supabaseServer } from '@/lib/supabaseServer';
+import { auth0, getDataApiAccessToken } from '@/lib/auth0';
+import { createSupabaseDataClient } from '@/lib/supabaseServer';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const accessToken = await getDataApiAccessToken(req, res);
+    const supabase = createSupabaseDataClient(accessToken);
+
     if (req.method !== 'PUT') {
       return res.status(400).json({ error: 'Invalid Request', success: false });
     }
@@ -44,7 +47,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       amount,
     };
 
-    const { data, error } = await supabaseServer
+    const { data, error } = await supabase
       .from('individual')
       .update(camper)
       .eq('id', id);

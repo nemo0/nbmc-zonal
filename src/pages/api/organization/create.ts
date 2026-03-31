@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import sendEmail from '@/lib/sendMail';
-import { supabaseServer } from '@/lib/supabaseServer';
+import { createSupabaseDataClient } from '@/lib/supabaseServer';
 
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
 
@@ -12,6 +12,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    const supabase = createSupabaseDataClient();
+
     const {
       organizationName,
       organizationAddress,
@@ -32,7 +34,7 @@ export default async function handler(
       };
     });
 
-    const { data, error } = await supabaseServer
+    const { data, error } = await supabase
       .from('organization')
       .insert(campersWithOrganization);
 

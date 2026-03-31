@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import sendEmail from '@/lib/sendMail';
-import { supabaseServer } from '@/lib/supabaseServer';
+import { createSupabaseDataClient } from '@/lib/supabaseServer';
 
 const __dirname = process.cwd();
 
@@ -10,6 +10,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    const supabase = createSupabaseDataClient();
+
     const {
       name,
       guardian,
@@ -48,9 +50,7 @@ export default async function handler(
       course,
     };
 
-    const { data, error } = await supabaseServer
-      .from('individual')
-      .insert([camper]);
+    const { data, error } = await supabase.from('individual').insert([camper]);
 
     if (error) {
       return res.status(400).json({ error: error.message, success: false });

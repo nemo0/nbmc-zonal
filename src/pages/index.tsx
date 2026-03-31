@@ -28,15 +28,16 @@ export default function HomePage() {
             {/* <Vercel className='text-5xl' /> */}
             <Image src='/images/logo.png' alt='logo' height={120} width={120} />
             <h1 className='mt-4'>
-              40th North Bengal Zonal Youth Training Camp 2024
+              42nd North Bengal Zonal Youth Training Camp 2026
             </h1>
             <p className='mt-2 text-sm text-gray-800'>
-              Register for the 40th North Bengal Zonal Youth Training Camp 2024
+              Register for the 42nd North Bengal Zonal Youth Training Camp 2026
             </p>
 
             <p className='my-4 text-xl font-semibold text-red-600'>
-              Last Date of Registration 10th May 2024
+              Last Date of Registration 10th May 2026
             </p>
+            {/* <p className='text-sm text-gray-700'>Location: TBD</p> */}
 
             <div className='flex gap-x-4'>
               <ButtonLink className='mt-6' href='/individual' variant='dark'>
