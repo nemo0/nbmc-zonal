@@ -1,6 +1,6 @@
--- One-shot bootstrap for a brand new Supabase database.
--- This script creates required tables, grants table privileges, enables RLS,
--- and applies public-insert + authenticated read/update policies.
+-- One-shot bootstrap for a brand new Supabase database (RLS disabled).
+-- This script creates required tables, grants table privileges, disables RLS,
+-- and removes previously created policies (if any).
 
 begin;
 
@@ -51,10 +51,10 @@ create table if not exists public.organization (
   created_at timestamptz not null default now()
 );
 
-grant usage on schema public to anon, authenticated;
+grant usage on schema public to anon, authenticated, service_role;
 
-revoke all on table public.individual from anon, authenticated;
-revoke all on table public.organization from anon, authenticated;
+revoke all on table public.individual from anon, authenticated, service_role;
+revoke all on table public.organization from anon, authenticated, service_role;
 
 grant insert on table public.individual to anon;
 grant insert on table public.organization to anon;
@@ -62,13 +62,14 @@ grant insert on table public.organization to anon;
 grant select, update on table public.individual to authenticated;
 grant select, update on table public.organization to authenticated;
 
-grant usage, select on sequence public.individual_id_seq to anon, authenticated;
-grant usage, select on sequence public.organization_id_seq to anon, authenticated;
+grant insert, select, update, delete on table public.individual to service_role;
+grant insert, select, update, delete on table public.organization to service_role;
 
-alter table if exists public.individual enable row level security;
-alter table if exists public.organization enable row level security;
+grant usage, select on sequence public.individual_id_seq to anon, authenticated, service_role;
+grant usage, select on sequence public.organization_id_seq to anon, authenticated, service_role;
 
-drop function if exists public.is_admin_from_jwt();
+alter table if exists public.individual disable row level security;
+alter table if exists public.organization disable row level security;
 
 drop policy if exists individual_public_insert on public.individual;
 drop policy if exists organization_public_insert on public.organization;
@@ -80,43 +81,5 @@ drop policy if exists individual_admin_select on public.individual;
 drop policy if exists organization_admin_select on public.organization;
 drop policy if exists individual_admin_update on public.individual;
 drop policy if exists organization_admin_update on public.organization;
-
-create policy individual_public_insert
-  on public.individual
-  for insert
-  to anon
-  with check (true);
-
-create policy organization_public_insert
-  on public.organization
-  for insert
-  to anon
-  with check (true);
-
-create policy individual_authenticated_select
-  on public.individual
-  for select
-  to authenticated
-  using (true);
-
-create policy organization_authenticated_select
-  on public.organization
-  for select
-  to authenticated
-  using (true);
-
-create policy individual_authenticated_update
-  on public.individual
-  for update
-  to authenticated
-  using (true)
-  with check (true);
-
-create policy organization_authenticated_update
-  on public.organization
-  for update
-  to authenticated
-  using (true)
-  with check (true);
 
 commit;

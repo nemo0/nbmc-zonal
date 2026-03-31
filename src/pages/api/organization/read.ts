@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { auth0, getDataApiAccessToken } from '@/lib/auth0';
-import { createSupabaseDataClient } from '@/lib/supabaseServer';
+import { auth0 } from '@/lib/auth0';
+import { createSupabaseAdminClient } from '@/lib/supabaseServer';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const accessToken = await getDataApiAccessToken(req, res);
-    const supabase = createSupabaseDataClient(accessToken);
+    const supabase = createSupabaseAdminClient();
     const { data, error } = await supabase.from('organization').select('*');
 
     if (error) {

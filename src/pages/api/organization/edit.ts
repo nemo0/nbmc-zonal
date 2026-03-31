@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
-import { auth0, getDataApiAccessToken } from '@/lib/auth0';
-import { createSupabaseDataClient } from '@/lib/supabaseServer';
+import { auth0 } from '@/lib/auth0';
+import { createSupabaseAdminClient } from '@/lib/supabaseServer';
 
 export interface IOrganizationCamper extends IIndividualCamper {
   id: string;
@@ -15,8 +15,7 @@ export interface IOrganizationCamper extends IIndividualCamper {
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const accessToken = await getDataApiAccessToken(req, res);
-    const supabase = createSupabaseDataClient(accessToken);
+    const supabase = createSupabaseAdminClient();
 
     const {
       id,

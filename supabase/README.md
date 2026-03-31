@@ -1,37 +1,28 @@
-# Supabase RLS Setup (Auth0 Bridge)
+# Supabase Setup (RLS Disabled)
 
-This app now sends Auth0 bearer tokens to Supabase Data API for protected routes.
-The bridge uses the Auth0 ID token from the existing session (no audience/scope changes required).
-The SQL migrations below are for a brand new Supabase project/database.
+This project now uses a non-RLS model:
 
-## 1) Configure Supabase to trust Auth0 JWTs
+- public registration form APIs use `SUPABASE_ANON_KEY` (insert-only privileges)
+- authenticated dashboard APIs use `SUPABASE_SERVICE_ROLE_KEY` on the server
 
-In Supabase Auth JWT settings, configure your Auth0 issuer/JWKS/audience so `auth.jwt()` resolves claims from Auth0 ID tokens.
+No Auth0-to-Supabase JWT bridge is required in this mode.
 
-## 2) Policy model
+## 1) Apply SQL migrations
 
-RLS policies allow:
-
-- `anon`: `INSERT` only (public registration forms)
-- `authenticated`: `SELECT` and `UPDATE`
-
-No Auth0 claim customization is required for this model.
-
-## 3) Apply policies
-
-Run the plain SQL migration files in order:
+Run the SQL files in order:
 
 1. `supabase/sql/001_create_registration_tables.sql`
 2. `supabase/sql/002_grant_table_privileges.sql`
-3. `supabase/sql/003_enable_rls.sql`
-4. `supabase/sql/004_public_insert_policies.sql`
-5. `supabase/sql/005_authenticated_read_update_policies.sql`
+3. `supabase/sql/003_enable_rls.sql` (this now disables RLS)
+4. `supabase/sql/004_public_insert_policies.sql` (policy cleanup)
+5. `supabase/sql/005_authenticated_read_update_policies.sql` (policy cleanup)
 
 You can also run `supabase/rls_policies.sql` as a one-shot equivalent for brand-new setups.
 
-## 4) Runtime env vars
+## 2) Runtime env vars
 
 Set the following:
 
 - `SUPABASE_URL`
-- `SUPABASE_ANON_KEY` (do not use service role)
+- `SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY` (server-only secret, never expose in client-side code)

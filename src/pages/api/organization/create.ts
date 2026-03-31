@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import sendEmail from '@/lib/sendMail';
-import { createSupabaseDataClient } from '@/lib/supabaseServer';
+import { createSupabasePublicClient } from '@/lib/supabaseServer';
 
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
 
@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const supabase = createSupabaseDataClient();
+    const supabase = createSupabasePublicClient();
 
     const {
       organizationName,

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import sendEmail from '@/lib/sendMail';
-import { createSupabaseDataClient } from '@/lib/supabaseServer';
+import { createSupabasePublicClient } from '@/lib/supabaseServer';
 
 const __dirname = process.cwd();
 
@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const supabase = createSupabaseDataClient();
+    const supabase = createSupabasePublicClient();
 
     const {
       name,
