@@ -146,7 +146,7 @@ export default function IndividualForm() {
               required: true,
             })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             {westBengalDistricts.map((district, index) => (
               <option key={index} value={district}>
                 {district}
@@ -214,7 +214,7 @@ export default function IndividualForm() {
             id='occupation'
             {...register('occupation', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Advocate</option>
             <option>Agent</option>
             <option>Business</option>
@@ -310,7 +310,7 @@ export default function IndividualForm() {
             id='physicallyFit'
             {...register('physicallyFit', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Yes</option>
             <option>No</option>
           </select>
@@ -332,7 +332,7 @@ export default function IndividualForm() {
             id='religion'
             {...register('religion', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Buddhism</option>
             <option>Christianity</option>
             <option>Hinduism</option>
@@ -359,7 +359,7 @@ export default function IndividualForm() {
             id='foodPreference'
             {...register('foodPreference', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Vegetarian</option>
             <option>Non-Vegetarian</option>
           </select>
@@ -381,7 +381,7 @@ export default function IndividualForm() {
             id='campExperience'
             {...register('campExperience', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Yes</option>
             <option>No</option>
           </select>
@@ -403,7 +403,7 @@ export default function IndividualForm() {
             id='natureOfCamper'
             {...register('natureOfCamper', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Leader</option>
             <option>Ordinary</option>
           </select>
@@ -425,7 +425,7 @@ export default function IndividualForm() {
             id='amount'
             {...register('amount', { required: true })}
           >
-            <option disabled selected></option>
+            <option value='' disabled></option>
             <option>Rs. 150</option>
             <option>Rs. 300</option>
             <option>Rs. 600</option>

@@ -186,7 +186,7 @@ export default function CamperModal(props: Props) {
                               required: true,
                             })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             {westBengalDistricts.map((district, index) => (
                               <option key={index} value={district}>
                                 {district}
@@ -254,7 +254,7 @@ export default function CamperModal(props: Props) {
                             id='occupation'
                             {...register('occupation', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Advocate</option>
                             <option>Agent</option>
                             <option>Business</option>
@@ -326,7 +326,7 @@ export default function CamperModal(props: Props) {
                             id='physicallyFit'
                             {...register('physicallyFit', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Yes</option>
                             <option>No</option>
                           </select>
@@ -348,7 +348,7 @@ export default function CamperModal(props: Props) {
                             id='religion'
                             {...register('religion', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Buddhism</option>
                             <option>Christianity</option>
                             <option>Hinduism</option>
@@ -375,7 +375,7 @@ export default function CamperModal(props: Props) {
                             id='foodPreference'
                             {...register('foodPreference', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Vegetarian</option>
                             <option>Non-Vegetarian</option>
                           </select>
@@ -397,7 +397,7 @@ export default function CamperModal(props: Props) {
                             id='campExperience'
                             {...register('campExperience', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Yes</option>
                             <option>No</option>
                           </select>
@@ -419,7 +419,7 @@ export default function CamperModal(props: Props) {
                             id='natureOfCamper'
                             {...register('natureOfCamper', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Leader</option>
                             <option>Ordinary</option>
                           </select>
@@ -441,7 +441,7 @@ export default function CamperModal(props: Props) {
                             id='amount'
                             {...register('amount', { required: true })}
                           >
-                            <option disabled selected></option>
+                            <option value='' disabled></option>
                             <option>Rs. 150</option>
                             <option>Rs. 300</option>
                             <option>Rs. 600</option>
