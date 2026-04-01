@@ -1,8 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react';
-import axios from 'axios';
 import React, { Fragment } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+
+import { getHttpErrorMessage, putJson } from '@/lib/http';
 
 import Button from '@/components/buttons/Button';
 import Cross from '@/components/Icons/Cross';
@@ -46,9 +47,12 @@ export default function CamperModal(props: Props) {
   const onSubmit = async (data: IEditCamper) => {
     try {
       setLoading(true);
-      const res = await axios.put('/api/individual/edit', data);
-      console.log(res.data);
-      if (res.data.success === true) {
+      const response = await putJson<{ success: boolean }>(
+        '/api/individual/edit',
+        data
+      );
+      console.log(response);
+      if (response.success === true) {
         toast.success('Camper updated successfully', {
           position: 'bottom-center',
         });
@@ -59,7 +63,7 @@ export default function CamperModal(props: Props) {
     } catch (error) {
       console.log(error);
 
-      toast.error('Something went wrong', {
+      toast.error(getHttpErrorMessage(error, 'Something went wrong'), {
         position: 'bottom-center',
       });
       setLoading(false);

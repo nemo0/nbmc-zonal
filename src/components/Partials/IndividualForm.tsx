@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import capitalizeFirstCharacters from '@/lib/capitalizeFirstCharacter';
+import { getHttpErrorMessage, postJson } from '@/lib/http';
 
 import Button from '@/components/buttons/Button';
 
@@ -47,12 +47,7 @@ export default function IndividualForm() {
   const onSubmit: SubmitHandler<IIndividualCamper> = async (data) => {
     try {
       setLoading(true);
-      const { data: response } = await axios.post(
-        '/api/individual/create',
-        data
-      );
-
-      // console.log(response);
+      await postJson('/api/individual/create', data);
 
       toast.success('Registration Successful', {
         position: 'bottom-center',
@@ -64,7 +59,7 @@ export default function IndividualForm() {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error('Something went wrong', {
+      toast.error(getHttpErrorMessage(error, 'Something went wrong'), {
         position: 'bottom-center',
       });
     }

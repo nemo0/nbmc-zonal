@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React from 'react';
 import DataTable from 'react-data-table-component';
+
+import { getHttpErrorMessage, getJson, postBlob } from '@/lib/http';
 
 import Button from '@/components/buttons/Button';
 import OrganizationCamperModal from '@/components/OrganizationModal';
@@ -122,7 +123,7 @@ const columns = (handleEditClick: (row: any) => void) => [
 ];
 
 export default function Datatable() {
-  const [data, setData] = React.useState([]);
+  const [data, setData] = React.useState<any[]>([]);
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState(null);
 
@@ -132,9 +133,13 @@ export default function Datatable() {
   };
 
   React.useEffect(() => {
-    axios.get('/api/organization/read').then((res) => {
-      setData(res.data.data);
-    });
+    getJson<{ data: any[] }>('/api/organization/read')
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(getHttpErrorMessage(error, 'Failed to load data'));
+      });
   }, [modalIsOpen]);
 
   const exportToJson = async () => {
@@ -166,18 +171,8 @@ export default function Datatable() {
         };
       });
 
-      const response = await axios.post(
-        '/api/export',
-        {
-          data: jsonDataForExport,
-        },
-        {
-          responseType: 'blob',
-        }
-      );
-
-      const blob = new Blob([response.data], {
-        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      const blob = await postBlob('/api/export', {
+        data: jsonDataForExport,
       });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -187,12 +182,12 @@ export default function Datatable() {
       document.body.appendChild(link);
       link.click();
 
-      link.parentNode && link.parentNode.removeChild(link);
+      if (link.parentNode) {
+        link.parentNode.removeChild(link);
+      }
       URL.revokeObjectURL(url);
-
-      console.log(response);
     } catch (error) {
-      console.log(error);
+      console.log(getHttpErrorMessage(error, 'Unable to export data'));
     }
   };
 
@@ -220,7 +215,9 @@ export default function Datatable() {
               isOpen={modalIsOpen}
               onRequestClose={() => {
                 setModalIsOpen(false);
-                selectedRow && setSelectedRow(null);
+                if (selectedRow) {
+                  setSelectedRow(null);
+                }
               }}
               row={selectedRow}
             />

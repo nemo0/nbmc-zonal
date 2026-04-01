@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState } from 'react';
 
 import { getApprovedAdminFromRequest } from '@/lib/adminAuth';
+import { getHttpErrorMessage, postJson } from '@/lib/http';
 
 import Button from '@/components/buttons/Button';
 import Layout from '@/components/layout/Layout';
@@ -59,7 +59,7 @@ export default function HomePage() {
       const endpoint =
         action === 'login' ? '/api/auth/login' : '/api/auth/signup';
 
-      await axios.post(endpoint, {
+      await postJson(endpoint, {
         email: normalizedEmail,
         password: normalizedPassword,
         name: name.trim(),
@@ -67,10 +67,10 @@ export default function HomePage() {
 
       router.push('/dashboard');
     } catch (error: unknown) {
-      const message = axios.isAxiosError(error)
-        ? (error.response?.data?.error as string) ||
-          'Unable to authenticate with the provided credentials'
-        : 'Unable to authenticate with the provided credentials';
+      const message = getHttpErrorMessage(
+        error,
+        'Unable to authenticate with the provided credentials'
+      );
       setErrorMessage(message);
     } finally {
       setLoadingAction(null);

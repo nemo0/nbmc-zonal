@@ -1,4 +1,3 @@
-import axios from 'axios';
 /**
  * SVGR Support
  * Caveat: No React Props Type.
@@ -26,6 +25,7 @@ import {
 } from 'recharts';
 
 import { getApprovedAdminFromRequest } from '@/lib/adminAuth';
+import { getJson } from '@/lib/http';
 
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
@@ -52,7 +52,7 @@ export default function HomePage({ adminUser }: DashboardProps) {
 
   useEffect(() => {
     const getAnalytics = async () => {
-      const { data } = await axios.get('/api/info/analytics');
+      const data = await getJson<{ analytics: unknown }>('/api/info/analytics');
       setAnalytics(data.analytics);
     };
 

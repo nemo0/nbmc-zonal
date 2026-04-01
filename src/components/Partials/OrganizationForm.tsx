@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import capitalizeFirstCharacters from '@/lib/capitalizeFirstCharacter';
+import { getHttpErrorMessage, postJson } from '@/lib/http';
 
 import Button from '@/components/buttons/Button';
 import { IIndividualCamper } from '@/components/Partials/IndividualForm';
@@ -69,7 +69,7 @@ export default function OrganizationForm() {
   const onSubmit: SubmitHandler<IOrganizationEntry> = async (data) => {
     try {
       setLoading(true);
-      await axios.post('/api/organization/create', data);
+      await postJson('/api/organization/create', data);
       // console.log(res);
       toast.success('Successfully submitted', {
         position: 'bottom-center',
@@ -80,7 +80,7 @@ export default function OrganizationForm() {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      toast.error('Something went wrong', {
+      toast.error(getHttpErrorMessage(error, 'Something went wrong'), {
         position: 'bottom-center',
       });
     }
