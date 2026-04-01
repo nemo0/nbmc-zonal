@@ -1,19 +1,12 @@
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/router';
 import * as React from 'react';
+
+import useAdminUser from '@/lib/useAdminUser';
 
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 
-const links = [
-  { href: '/individual', label: 'Individual' },
-  { href: '/organization', label: 'Organization' },
-];
-
 export default function Header() {
-  const { user, error, isLoading } = useUser();
-
-  const router = useRouter();
+  const { user, isLoading } = useAdminUser();
 
   return (
     <header className='sticky top-0 z-50 bg-white'>
@@ -53,17 +46,17 @@ export default function Header() {
                   </ButtonLink>
                 </li>
               </>
-            ) : (
+            ) : !isLoading ? (
               <li>
                 <ButtonLink
-                  href='/api/auth/login'
+                  href='/login'
                   className='rounded-none  px-4 py-2  text-sm font-medium'
                   variant='dark'
                 >
                   Admin Login
                 </ButtonLink>
               </li>
-            )}
+            ) : null}
           </ul>
         </nav>
       </div>

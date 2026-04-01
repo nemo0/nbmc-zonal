@@ -1,9 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { requireApprovedAdminApi } from '@/lib/adminAuth';
 import { exportJsonToExcel } from '@/lib/exportJsonToExcel';
-import { auth0 } from '@/lib/auth0';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (!(await requireApprovedAdminApi(req, res))) {
+    return;
+  }
+
   if (req.method === 'POST') {
     try {
       const jsonData = req.body.data;
@@ -18,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       );
       res.setHeader('Content-Disposition', `attachment; filename=${fileName}`);
       res.status(200).send(buffer);
-    } catch (error) {
+    } catch {
       res
         .status(500)
         .json({ error: 'An error occurred while exporting the data to Excel' });
@@ -28,4 +32,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default auth0.withApiAuthRequired(handler);
+export default handler;

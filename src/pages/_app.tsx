@@ -1,4 +1,3 @@
-import { Auth0Provider } from '@auth0/nextjs-auth0/client';
 import { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
 
@@ -14,10 +13,10 @@ import '@/styles/colors.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Auth0Provider>
+    <>
       <Component {...pageProps} />
       <ToastContainer />
-    </Auth0Provider>
+    </>
   );
 }
 

@@ -1,12 +1,11 @@
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { useRouter } from 'next/router';
+import { GetServerSidePropsContext } from 'next';
 import * as React from 'react';
-import { useEffect } from 'react';
+
+import { getApprovedAdminFromRequest } from '@/lib/adminAuth';
 
 import Layout from '@/components/layout/Layout';
 import Datatable from '@/components/Partials/IndividualDatatable';
 import Seo from '@/components/Seo';
-import Skeleton from '@/components/Skeleton';
 
 /**
  * SVGR Support
@@ -21,32 +20,31 @@ import Skeleton from '@/components/Skeleton';
 // to customize the default configuration.
 
 export default function HomePage() {
-  const { user } = useUser();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Check for an issuer on our user object. If it exists, route them to the dashboard.
-    !user && router.push('/api/auth/login');
-  }, [user]);
-
   return (
-    <>
-      {user ? (
-        <Layout>
-          {/* <Seo templateTitle='Home' /> */}
-          <Seo />
+    <Layout>
+      {/* <Seo templateTitle='Home' /> */}
+      <Seo />
 
-          <main className='layout'>
-            <div className='mt-10'>
-              <>
-                <Datatable />
-              </>
-            </div>
-          </main>
-        </Layout>
-      ) : (
-        <Skeleton className='h-[85vh]' />
-      )}
-    </>
+      <main className='layout'>
+        <div className='mt-10'>
+          <Datatable />
+        </div>
+      </main>
+    </Layout>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const auth = await getApprovedAdminFromRequest(context.req, context.res);
+
+  if (!auth.ok) {
+    return {
+      redirect: {
+        destination: auth.status === 403 ? '/login?error=forbidden' : '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: {} };
 }

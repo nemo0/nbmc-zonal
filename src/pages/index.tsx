@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-import ButtonLink from '@/components/links/ButtonLink';
 import Layout from '@/components/layout/Layout';
+import ButtonLink from '@/components/links/ButtonLink';
 import Seo from '@/components/Seo';
 
 /**

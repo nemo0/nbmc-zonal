@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { IIndividualCamper } from '@/components/Partials/IndividualForm';
-import { auth0 } from '@/lib/auth0';
+import { requireApprovedAdminApi } from '@/lib/adminAuth';
 import { createSupabaseAdminClient } from '@/lib/supabaseServer';
+
+import { IIndividualCamper } from '@/components/Partials/IndividualForm';
 
 export interface IOrganizationCamper extends IIndividualCamper {
   id: string;
@@ -15,6 +16,10 @@ export interface IOrganizationCamper extends IIndividualCamper {
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    if (!(await requireApprovedAdminApi(req, res))) {
+      return;
+    }
+
     const supabase = createSupabaseAdminClient();
 
     const {
@@ -72,11 +77,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     return res.status(200).json({ data, success: true });
-  } catch (error) {
+  } catch {
     return res
       .status(400)
       .json({ error: 'Something went wrong', success: false });
   }
 }
 
-export default auth0.withApiAuthRequired(handler);
+export default handler;
