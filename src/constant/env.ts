@@ -5,8 +5,9 @@ export const showLogger = isLocal
   ? true
   : process.env.NEXT_PUBLIC_SHOW_LOGGER === 'true';
 
-export const sibServer = process.env.SENDINBLUE_SERVER ?? '';
-export const sibPort = process.env.SENDINBLUE_PORT ?? 587;
-export const sibLogin = process.env.SENDINBLUE_LOGIN ?? '';
-export const sibKey = process.env.SENDINBLUE_KEY ?? '';
-export const mailRecipients = process.env.NEXT_PUBLIC_EMAIL_RECIPIENTS ?? '';
+export const resendApiKey = process.env.RESEND_API_KEY ?? '';
+export const resendFromEmail = process.env.RESEND_FROM_EMAIL ?? '';
+export const emailRecipients =
+  process.env.EMAIL_RECIPIENTS ??
+  process.env.NEXT_PUBLIC_EMAIL_RECIPIENTS ??
+  '';

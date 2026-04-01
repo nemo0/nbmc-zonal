@@ -1,61 +1,79 @@
 import ejs from 'ejs';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-import { IIndividualCamper } from '@/components/Partials/IndividualForm';
+import type { IIndividualCamper } from '@/components/Partials/IndividualForm';
 
-import {
-  mailRecipients,
-  sibKey,
-  sibLogin,
-  sibPort,
-  sibServer,
-} from '@/constant/env';
+import { emailRecipients, resendApiKey, resendFromEmail } from '@/constant/env';
 
-const transport = nodemailer.createTransport({
-  host: sibServer,
-  port: Number(sibPort),
-  auth: {
-    user: sibLogin,
-    pass: sibKey,
-  },
-});
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
+
+function getAdditionalRecipients() {
+  if (!emailRecipients) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(emailRecipients);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .filter((recipient): recipient is string => typeof recipient === 'string')
+      .map((recipient) => recipient.trim())
+      .filter(Boolean);
+  } catch (error) {
+    console.error(
+      'Invalid EMAIL_RECIPIENTS JSON. Expected a JSON array.',
+      error
+    );
+    return [];
+  }
+}
 
 const sendEmail = (
   receiver: string,
   subject: string,
-  camper: IIndividualCamper | any,
+  camper: IIndividualCamper | Record<string, unknown>,
   template: string
 ) => {
-  try {
-    ejs.renderFile(
-      template,
-      { camper }, // Pass the camper object to the template
-      (err: any, data: any) => {
-        if (err) {
-          console.log(err);
-        } else {
-          const emailReceivers = JSON.parse(mailRecipients);
-          const receivers = [receiver, ...emailReceivers];
-
-          const mailOptions = {
-            from: 'subhachanda88@gmail.com',
-            to: receivers,
-            subject: subject,
-            html: data,
-          };
-
-          transport.sendMail(mailOptions, (error: any, info: any) => {
-            if (error) {
-              return console.log(error);
-            }
-            console.log('Message sent: %s', info.messageId);
-          });
-        }
+  void (async () => {
+    try {
+      if (!resend) {
+        console.error('Missing RESEND_API_KEY. Skipping email send.');
+        return;
       }
-    );
-  } catch (error) {
-    console.log(error);
-  }
+
+      if (!resendFromEmail) {
+        console.error('Missing RESEND_FROM_EMAIL. Skipping email send.');
+        return;
+      }
+
+      const additionalRecipients = getAdditionalRecipients();
+      const receivers = Array.from(
+        new Set(
+          [receiver, ...additionalRecipients].map((value) => value.trim())
+        )
+      ).filter(Boolean);
+
+      const html = await ejs.renderFile(template, { camper });
+      const { data, error } = await resend.emails.send({
+        from: resendFromEmail,
+        to: receivers,
+        subject,
+        html,
+      });
+
+      if (error) {
+        console.error('Failed to send email with Resend:', error);
+        return;
+      }
+
+      console.log('Message sent:', data?.id ?? 'unknown');
+    } catch (error) {
+      console.error(error);
+    }
+  })();
 };
 
 export default sendEmail;
