@@ -6,6 +6,29 @@ import { getHttpErrorMessage, getJson, postBlob } from '@/lib/http';
 import Button from '@/components/buttons/Button';
 import OrganizationCamperModal from '@/components/OrganizationModal';
 
+const ALL_ORGANIZATIONS = '__all_organizations__';
+
+type OrganizationCamperRow = {
+  [key: string]: unknown;
+  organizationName?: string | null;
+};
+
+function getOrganizationFilterKey(organizationName: unknown) {
+  if (typeof organizationName !== 'string') {
+    return '';
+  }
+
+  return organizationName.trim().toLowerCase();
+}
+
+function getOrganizationDisplayName(organizationName: unknown) {
+  if (typeof organizationName !== 'string') {
+    return '';
+  }
+
+  return organizationName.trim();
+}
+
 const columns = (handleEditClick: (row: any) => void) => [
   {
     name: 'Created At',
@@ -123,7 +146,9 @@ const columns = (handleEditClick: (row: any) => void) => [
 ];
 
 export default function Datatable() {
-  const [data, setData] = React.useState<any[]>([]);
+  const [data, setData] = React.useState<OrganizationCamperRow[]>([]);
+  const [selectedOrganizationName, setSelectedOrganizationName] =
+    React.useState(ALL_ORGANIZATIONS);
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
   const [selectedRow, setSelectedRow] = React.useState(null);
 
@@ -133,7 +158,7 @@ export default function Datatable() {
   };
 
   React.useEffect(() => {
-    getJson<{ data: any[] }>('/api/organization/read')
+    getJson<{ data: OrganizationCamperRow[] }>('/api/organization/read')
       .then((response) => {
         setData(response.data);
       })
@@ -142,9 +167,51 @@ export default function Datatable() {
       });
   }, [modalIsOpen]);
 
+  const organizationOptions = React.useMemo(() => {
+    const optionsByFilterKey = new Map<string, string>();
+
+    data.forEach((item) => {
+      const filterKey = getOrganizationFilterKey(item.organizationName);
+      const displayName = getOrganizationDisplayName(item.organizationName);
+
+      if (!filterKey || optionsByFilterKey.has(filterKey)) {
+        return;
+      }
+
+      optionsByFilterKey.set(filterKey, displayName);
+    });
+
+    return Array.from(optionsByFilterKey.entries())
+      .map(([value, label]) => ({ label, value }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [data]);
+
+  React.useEffect(() => {
+    if (
+      selectedOrganizationName !== ALL_ORGANIZATIONS &&
+      !organizationOptions.some(
+        (option) => option.value === selectedOrganizationName
+      )
+    ) {
+      setSelectedOrganizationName(ALL_ORGANIZATIONS);
+    }
+  }, [organizationOptions, selectedOrganizationName]);
+
+  const filteredData = React.useMemo(() => {
+    if (selectedOrganizationName === ALL_ORGANIZATIONS) {
+      return data;
+    }
+
+    return data.filter(
+      (item) =>
+        getOrganizationFilterKey(item.organizationName) ===
+        selectedOrganizationName
+    );
+  }, [data, selectedOrganizationName]);
+
   const exportToJson = async () => {
     try {
-      const jsonDataForExport = data.map((item: any) => {
+      const jsonDataForExport = filteredData.map((item: any) => {
         return {
           'Created At': item.created_at,
           'Organization Name': item.organizationName,
@@ -195,7 +262,33 @@ export default function Datatable() {
     <div>
       {data ? (
         <div className='mb-24'>
-          <div className='flex w-full justify-end'>
+          <div className='mb-4 flex w-full flex-col gap-3 sm:flex-row sm:items-end sm:justify-between'>
+            <div className='w-full sm:max-w-xs'>
+              <label
+                htmlFor='organization-filter'
+                className='mb-1 block text-sm font-medium text-gray-700'
+              >
+                Filter by organization
+              </label>
+              <select
+                id='organization-filter'
+                value={selectedOrganizationName}
+                onChange={(event) => {
+                  setSelectedOrganizationName(event.target.value);
+                }}
+                className='focus:border-primary-500 focus:ring-primary-500 block w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1'
+              >
+                <option value={ALL_ORGANIZATIONS}>All organizations</option>
+                {organizationOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <p className='mt-1 text-xs text-gray-500'>
+                Showing {filteredData.length} of {data.length} entries
+              </p>
+            </div>
             <Button
               onClick={() => {
                 exportToJson();
@@ -207,7 +300,7 @@ export default function Datatable() {
           </div>
           <DataTable
             columns={columns(handleEditClick)}
-            data={data}
+            data={filteredData}
             fixedHeader
           />
           {selectedRow && (
