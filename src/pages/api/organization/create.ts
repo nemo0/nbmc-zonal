@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { submissionClosed } from '@/constant/env';
 import sendEmail from '@/lib/sendMail';
 import { createSupabasePublicClient } from '@/lib/supabaseServer';
 
@@ -11,6 +12,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (submissionClosed) {
+    return res.status(403).json({
+      error: 'Submission has been closed',
+      success: false,
+    });
+  }
+
   try {
     const supabase = createSupabasePublicClient();
 

@@ -4,6 +4,7 @@ import Layout from '@/components/layout/Layout';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import OrganizationForm from '@/components/Partials/OrganizationForm';
 import Seo from '@/components/Seo';
+import { submissionClosed } from '@/constant/env';
 
 /**
  * SVGR Support
@@ -33,7 +34,13 @@ export default function HomePage() {
           If you are facing any issues with the form, please contact at{' '}
           <UnderlineLink href='tel:7602110080'>7602110080</UnderlineLink>
         </h5>
-        <OrganizationForm />
+        {submissionClosed ? (
+          <h4 className='my-8 text-center text-red-600'>
+            Submission has been closed.
+          </h4>
+        ) : (
+          <OrganizationForm />
+        )}
       </main>
     </Layout>
   );

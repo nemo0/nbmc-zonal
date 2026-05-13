@@ -5,6 +5,9 @@ export const showLogger = isLocal
   ? true
   : process.env.NEXT_PUBLIC_SHOW_LOGGER === 'true';
 
+export const submissionClosed =
+  process.env.NEXT_PUBLIC_SUBMISSION_CLOSED === 'true';
+
 export const resendApiKey = process.env.RESEND_API_KEY ?? '';
 export const resendFromEmail = process.env.RESEND_FROM_EMAIL ?? '';
 export const emailRecipients =

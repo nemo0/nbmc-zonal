@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import Seo from '@/components/Seo';
+import { submissionClosed } from '@/constant/env';
 
 /**
  * SVGR Support
@@ -34,19 +35,31 @@ export default function HomePage() {
               Register for the 42nd North Bengal Zonal Youth Training Camp 2026
             </p>
 
-            <p className='my-4 text-xl font-semibold text-red-600'>
-              Last Date of Registration 10th May 2026
-            </p>
+            {submissionClosed ? (
+              <p className='my-4 text-xl font-semibold text-red-600'>
+                Submission has been closed.
+              </p>
+            ) : (
+              <p className='my-4 text-xl font-semibold text-red-600'>
+                Last Date of Registration 10th May 2026
+              </p>
+            )}
             {/* <p className='text-sm text-gray-700'>Location: TBD</p> */}
 
-            <div className='flex gap-x-4'>
-              <ButtonLink className='mt-6' href='/individual' variant='dark'>
-                Individual Registration
-              </ButtonLink>
-              <ButtonLink className='mt-6' href='/organization' variant='light'>
-                Organization Registration
-              </ButtonLink>
-            </div>
+            {!submissionClosed && (
+              <div className='flex gap-x-4'>
+                <ButtonLink className='mt-6' href='/individual' variant='dark'>
+                  Individual Registration
+                </ButtonLink>
+                <ButtonLink
+                  className='mt-6'
+                  href='/organization'
+                  variant='light'
+                >
+                  Organization Registration
+                </ButtonLink>
+              </div>
+            )}
           </div>
         </section>
       </main>
